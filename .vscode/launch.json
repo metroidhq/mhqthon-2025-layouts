@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch via Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:8080/#/global-info",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "npm start",
+      "postDebugTask": "npm stop",
+      "runtimeArgs": ["--auto-open-devtools-for-tabs"]
+    }
+  ]
+}
