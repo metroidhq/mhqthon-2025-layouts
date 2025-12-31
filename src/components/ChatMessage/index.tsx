@@ -140,7 +140,9 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
     ? 'linear-gradient(90deg, #3866dd, #ff4c5b)'
     : 'conic-gradient(#b23ff8, #3cc890, #38a7ca, #b23ff8)';
   const colorStrongLogin = event.color || '#808080';
+  const filterContainerContent = isSpecialMessage && !isMessageEffect ? 'var(--shadow)' : 'none';
   const filterDivMessageEffect = isRainbowEclipse ? 'blur(8px)' : 'none';
+  const filterPMessageChild = isSpecialMessage ? 'none' : 'var(--shadow)';
   const filterSpanPronouns = isSpecialMessage ? 'brightness(90%)' : 'brightness(110%)';
   const marginContainerContent = isMessageEffect ? 'calc(var(--padding) * (2 / 3))' : '0';
   const marginDivMessageEffect = isRainbowEclipse ? 'calc(var(--padding) * (2 / 3))' : '0';
@@ -191,6 +193,7 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
     width: 100%;
     margin: ${marginContainerContent};
     background-color: ${backgroundColorContainerContent};
+    filter: ${filterContainerContent};
   `;
   const cssDivMarker = css`
     position: absolute;
@@ -202,13 +205,16 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
   `;
   const cssIconNotice = css`
     position: absolute;
-    left: calc(var(--padding) / 1.6);
-    left: calc(var(--padding) / 2);
+    left: calc(var(--padding) / (8 / 3));
     height: calc(var(--line-height));
   `;
   const cssPMessage = css`
     padding: calc(var(--padding) / 4) 0 calc(var(--padding) / 4)
       calc((var(--line-height) - (var(--padding) / 2)) + var(--padding));
+
+    * {
+      filter: ${filterPMessageChild};
+    }
   `;
   const cssImgBadge = css`
     height: calc(var(--line-height));

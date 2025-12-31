@@ -46,45 +46,40 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
   const cssContainerSchedule = css`
     flex: 1;
     position: absolute;
-    max-width: calc(100% - ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75)));
+    width: calc(100% - ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75)));
+    max-height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding) calc(var(--padding) / 2) 0;
+    overflow-y: hidden;
     transition: opacity 0.5s;
   `;
-  const cssSpanTime = css`
+  const cssSpanScheduleLabel = css`
     font-family: 'Orbitron';
     font-weight: 700;
     opacity: 0.7;
   `;
   const cssPTopInfo = css`
-    display: inline-flex;
-    flex-direction: column;
-    align-items: baseline;
-    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  `;
+  const cssPTopInfoBold = css`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    font-weight: 500;
+    font-size: var(--line-height);
+  `;
+  const cssSpanTime = css`
+    font-weight: 500;
+    opacity: 0.7;
   `;
   const cssSpanTitle = css`
-    overflow: hidden;
-    font-size: var(--line-height);
+    /* overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-  `;
-  const cssSpanTitleBold = css`
-    overflow: hidden;
-    font-size: var(--line-height);
-    font-weight: 500;
-    text-overflow: ellipsis;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    white-space: nowrap;
+    max-width: 100%; */
   `;
 
   // Set segments data
@@ -136,10 +131,12 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
     <FlexContainer cssContainer={cssContainer}>
       <FlexContainer cssContainer={cssContainerInfo}>
         <FlexContainer column cssContainer={cssContainerSchedule}>
+          <span css={cssSpanScheduleLabel}>Schedule</span>
+
           {segments.map((segment, i) => (
-            <p key={i} css={cssPTopInfo}>
-              <span css={cssSpanTime}>{segment.time}</span>
-              <span css={i === 0 ? cssSpanTitleBold : cssSpanTitle}>{segment.title}</span>
+            <p key={i} css={i === 0 ? cssPTopInfoBold : cssPTopInfo}>
+              <span css={cssSpanTime}>{segment.time}:&nbsp;</span>
+              <span css={cssSpanTitle}>{segment.title}</span>
             </p>
           ))}
         </FlexContainer>
