@@ -21,11 +21,13 @@ export const PersonBox = () => {
   const cssContainer = css`
     position: relative;
     flex: 3;
-    /* filter: drop-shadow(#000000 0 0 calc(var(--padding) * 0.375)); */
+    filter: var(--shadow);
   `;
   const cssLogo = css`
-    margin-left: calc(var(--padding) / 2);
-    /* filter: drop-shadow(#000000 0 0 calc(var(--padding) * 0.375)); */
+    width: calc(var(--bar-height) - var(--padding));
+    height: calc(var(--bar-height) - var(--padding));
+    margin: calc(var(--padding) / 2) var(--padding);
+    border-radius: 50%;
   `;
 
   // Get supporting person data

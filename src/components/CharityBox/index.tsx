@@ -23,13 +23,18 @@ export const CharityBox = () => {
   const [getUsers, { data: usersData, /* error: usersError, */ isLoading: isUsersLoading }] = useLazyGetUsersQuery();
   const isLoading = isCharityCampaignLoading || isUserChatColorsLoading || isUsersLoading;
   const isRenderable = !!(charityCampaignData && userChatColorsData && usersData);
+  const {
+    charity_logo: charityLogo,
+    current_amount: currentAmount,
+    target_amount: targetAmount,
+  } = charityCampaignData?.data[0] || {};
 
   const cssContainer = css`
     position: relative;
     flex: 3;
     align-items: center;
     justify-content: flex-end;
-    filter: drop-shadow(#000000 0 0 calc(var(--padding) * 0.375));
+    filter: var(--shadow);
   `;
   const cssAmounts = css`
     align-items: flex-end;
@@ -37,12 +42,15 @@ export const CharityBox = () => {
     font-weight: 700;
   `;
   const cssCurrentAmount = css`
-    font-size: 48px;
+    line-height: calc(var(--line-height) * 2);
+    font-size: calc(var(--font-size) * 2);
   `;
   const cssTargetAmount = css`
-    font-size: 24px;
+    opacity: 0.7;
   `;
   const cssLogo = css`
+    width: calc(var(--bar-height) - var(--padding));
+    height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding);
   `;
 
@@ -61,16 +69,21 @@ export const CharityBox = () => {
   return (
     <FlexContainer cssContainer={cssContainer}>
       <FlexContainer column={true} cssContainer={cssAmounts}>
-        <span css={cssCurrentAmount}>{formatTwitchAmount(charityCampaignData.data[0].current_amount)}</span>
+        <span css={cssCurrentAmount}>{currentAmount ? formatTwitchAmount(currentAmount) : '$0.00'}</span>
         <span css={cssTargetAmount}>
           Next Goal:{' '}
-          {formatTwitchAmount(charityCampaignData.data[0].target_amount, {
-            minimumFractionDigits: 0,
-          })}
+          {targetAmount
+            ? formatTwitchAmount(targetAmount, {
+                minimumFractionDigits: 0,
+              })
+            : '$0.00'}
         </span>
       </FlexContainer>
 
-      <img src={charityCampaignData.data[0].charity_logo} css={cssLogo} />
+      <img
+        src={charityLogo || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
+        css={cssLogo}
+      />
     </FlexContainer>
   );
 };

@@ -203,17 +203,16 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
   const cssIconNotice = css`
     position: absolute;
     left: calc(var(--padding) / 1.6);
-    height: calc(var(--line-height) - (var(--padding) / 2));
+    left: calc(var(--padding) / 2);
+    height: calc(var(--line-height));
   `;
   const cssPMessage = css`
     padding: calc(var(--padding) / 4) 0 calc(var(--padding) / 4)
       calc((var(--line-height) - (var(--padding) / 2)) + var(--padding));
-    line-height: calc(((var(--bar-height) - var(--padding)) / 3) - (var(--padding) / 2));
-    font-size: calc((((var(--bar-height) - var(--padding)) / 3) - (var(--padding) / 2)) / 6 * 5);
   `;
   const cssImgBadge = css`
-    height: calc(((var(--bar-height) - var(--padding)) / 3) - (var(--padding) / 2));
-    width: calc(((var(--bar-height) - var(--padding)) / 3) - (var(--padding) / 2));
+    height: calc(var(--line-height));
+    width: calc(var(--line-height));
     margin: 0 calc(var(--padding) / 4) 0 0;
     vertical-align: text-bottom;
   `;

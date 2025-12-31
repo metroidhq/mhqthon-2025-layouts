@@ -6,9 +6,22 @@ import robotoLightFont from '@assets/fonts/Roboto-Light.ttf';
 import robotoRegularFont from '@assets/fonts/Roboto-Regular.ttf';
 import robotoMediumFont from '@assets/fonts/Roboto-Medium.ttf';
 
+export const mhqPalette = {
+  100: '#eff5f1',
+  200: '#cfe8d6',
+  300: '#aae0b9',
+  400: '#81dc9a',
+  500: '#5dd27d',
+  600: '#3ac861',
+  700: '#2fa64f',
+  800: '#25833e',
+  900: '#19612c',
+  1000: '#0e3f1b',
+};
+
 export const GlobalStyle = () => {
-  const bodyBackgroundColor = window.obsstudio ? 'transparent' : '#232f2a';
-  const rootBackgroundColor = window.obsstudio ? 'transparent' : '#232f2a';
+  const bodyBackgroundColor = window.obsstudio ? 'transparent' : '#33342b';
+  const rootBackgroundColor = window.obsstudio ? 'transparent' : '#33342b';
   const rootBackgroundImage = window.obsstudio ? 'none' : `url("${backgroundImage}")`;
 
   const cssGlobal = css`
@@ -66,7 +79,12 @@ export const GlobalStyle = () => {
       --bar-height: 120px;
       --padding: 24px;
       --line-height: calc((var(--bar-height) - var(--padding)) / 3);
-      --font-size: calc(var(--line-height) / 6 * 5);
+      --font-size: calc(var(--line-height) / 8 * 7);
+      --shadow: drop-shadow(#000000 0 0 calc(var(--padding) * 0.375));
+
+      ${Object.entries(mhqPalette)
+        .map(([weight, hexcode]) => `--colors-mhq-${weight}: ${hexcode};`)
+        .join('')}
     }
 
     * {

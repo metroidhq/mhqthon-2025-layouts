@@ -18,7 +18,7 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
   } = useGetChannelStreamScheduleQuery({ broadcasterId: person.id });
   const { data: pronounsData, /* error: pronounsError, */ isLoading: isPronounsLoading } = useGetPronounsQuery();
   const { data: userData, /* error: userError, */ isLoading: isUserLoading } = useGetUserQuery({ login: person.login });
-  const [segments, setSegments] = useState<{ title: string; prefix: string }[]>([]);
+  const [segments, setSegments] = useState<{ title: string; time: string }[]>([]);
   const personInfoIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
   const isLoading = isChannelStreamScheduleLoading || isPronounsLoading || isUserLoading;
   const isRenderable = !!(
@@ -34,7 +34,7 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
     max-width: 100%;
     min-width: 100%;
     padding-left: calc(var(--bar-height) + var(--padding));
-    filter: drop-shadow(#000000 0 0 calc(var(--padding) * 0.375));
+    line-height: var(--line-height);
   `;
   const cssContainerInfo = css`
     position: absolute;
@@ -50,27 +50,41 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
     margin: calc(var(--padding) / 2) var(--padding) calc(var(--padding) / 2) 0;
     transition: opacity 0.5s;
   `;
-  const cssSpanSchedule = css`
+  const cssSpanTime = css`
     font-family: 'Orbitron';
     font-weight: 700;
-    font-size: 24px;
+    opacity: 0.7;
   `;
   const cssPTopInfo = css`
     display: inline-flex;
+    flex-direction: column;
     align-items: baseline;
+    height: 100%;
   `;
   const cssSpanTitle = css`
-    overflow-x: hidden;
-    font-size: 24px;
+    overflow: hidden;
+    font-size: var(--line-height);
     text-overflow: ellipsis;
-    white-space: nowrap;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   `;
   const cssSpanTitleBold = css`
-    overflow-x: hidden;
-    font-size: 31px;
+    overflow: hidden;
+    font-size: var(--line-height);
     font-weight: 500;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   `;
 
   // Set segments data
@@ -87,7 +101,7 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
         title = titlePieces[1] ? titlePieces[1] : titlePieces[0];
         title = title.split(' | MHQthon 2024')[0];
 
-        const prefix = new DateTime(new Date(startTime).toISOString(), 'y-MM-ddTHH:mm:ss.SSSZ')
+        const time = new DateTime(new Date(startTime).toISOString(), 'y-MM-ddTHH:mm:ss.SSSZ')
           .toZone(TimeZone.zone(Intl.DateTimeFormat().resolvedOptions().timeZone))
           .format('h:mmaaaaa z')
           .split(' ')
@@ -95,8 +109,8 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
           .join(' ');
 
         if (startTime) {
-          result = [...acc, { title, prefix }];
-          if (new Date(startTime).getTime() - new Date().getTime() < 0) result[result.length - 1].prefix = 'Now';
+          result = [...acc, { title, time }];
+          if (new Date(startTime).getTime() - new Date().getTime() < 0) result[result.length - 1].time = 'Now';
         }
 
         return result;
@@ -121,14 +135,11 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
   return (
     <FlexContainer cssContainer={cssContainer}>
       <FlexContainer cssContainer={cssContainerInfo}>
-        <FlexContainer column={true} cssContainer={cssContainerSchedule}>
-          <span css={cssSpanSchedule}>Schedule</span>
-
+        <FlexContainer column cssContainer={cssContainerSchedule}>
           {segments.map((segment, i) => (
             <p key={i} css={cssPTopInfo}>
-              <span css={i === 0 ? cssSpanTitleBold : cssSpanTitle}>
-                {segment.prefix}: {segment.title}
-              </span>
+              <span css={cssSpanTime}>{segment.time}</span>
+              <span css={i === 0 ? cssSpanTitleBold : cssSpanTitle}>{segment.title}</span>
             </p>
           ))}
         </FlexContainer>

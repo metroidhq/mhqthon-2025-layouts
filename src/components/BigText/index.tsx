@@ -12,7 +12,7 @@ export const BigText = ({ text, subtext }: BigTextProps) => {
     margin-bottom: var(--bar-height);
     font-family: 'Orbitron', Arial, Helvetica, sans-serif;
     font-size: 96px;
-    filter: drop-shadow(#000000 0 0 calc(var(--padding) * 0.375));
+    filter: var(--shadow);
   `;
   const cssSubText = css`
     font-size: 48px;

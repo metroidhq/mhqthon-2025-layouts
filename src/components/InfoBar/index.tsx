@@ -25,9 +25,9 @@ export const InfoBar = () => {
     bottom: 0;
     width: var(--bar-width);
     height: var(--bar-height);
-    background-color: #39cb62;
+    background-color: var(--colors-mhq-1000);
     overflow: hidden;
-    filter: drop-shadow(#000000 0 0 calc(var(--padding) * 0.375));
+    filter: var(--shadow);
   `;
 
   // Set broadcaster color if user chat colors data exists

@@ -28,7 +28,6 @@ export const ChatBox = () => {
     flex: 1;
     gap: calc(var(--padding) / 4);
     justify-content: flex-end;
-    line-height: calc((var(--bar-height) - (var(--padding) * 1.5)) / 3);
     padding: 0 var(--padding) calc(var(--padding) / 2) var(--padding);
   `;
 

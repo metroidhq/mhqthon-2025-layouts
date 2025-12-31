@@ -17,7 +17,7 @@ export const Countdown = () => {
       margin-bottom: var(--bar-height);
       font-family: 'Orbitron', Arial, Helvetica, sans-serif;
       font-size: 96px;
-      filter: drop-shadow(#000000 0 0 calc(var(--padding) * 0.375));
+      filter: var(--shadow);
     `;
 
     return (
@@ -28,5 +28,5 @@ export const Countdown = () => {
   }, []);
 
   // Render component
-  return <CountdownComp date={new Date('2024-12-04T12:00:00-08:00')} renderer={renderCountdown} />;
+  return <CountdownComp date={new Date('2026-01-14T12:00:00-08:00')} renderer={renderCountdown} />;
 };
