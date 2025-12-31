@@ -75,12 +75,6 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
     font-weight: 500;
     opacity: 0.7;
   `;
-  const cssSpanTitle = css`
-    /* overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%; */
-  `;
 
   // Set segments data
   useEffect(() => {
@@ -136,7 +130,7 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
           {segments.map((segment, i) => (
             <p key={i} css={i === 0 ? cssPTopInfoBold : cssPTopInfo}>
               <span css={cssSpanTime}>{segment.time}:&nbsp;</span>
-              <span css={cssSpanTitle}>{segment.title}</span>
+              <span>{segment.title}</span>
             </p>
           ))}
         </FlexContainer>
