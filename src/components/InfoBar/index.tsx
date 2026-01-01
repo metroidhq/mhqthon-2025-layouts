@@ -26,7 +26,7 @@ export const InfoBar = () => {
     width: var(--bar-width);
     height: var(--bar-height);
     background-color: var(--colors-mhq-1000);
-    background-image: linear-gradient(180deg, var(--colors-mhq-900), var(--colors-mhq-1000));
+    background-image: linear-gradient(180deg, var(--colors-mhq-1000), var(--colors-mhq-1100));
     overflow: hidden;
     filter: var(--shadow);
   `;

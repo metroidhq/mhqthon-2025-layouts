@@ -128,8 +128,6 @@ export const MessageHandler = () => {
       const { message_id: messageId, message_type: messageType } = metadata;
 
       if (!twitchMessageIds.includes(messageId)) {
-        // const { payload } = twitchMessage;
-
         if (messageType === 'session_welcome' && 'session' in payload) {
           dispatch(setTwitchEventSub({ sessionId: payload.session.id }));
         } else if (messageType === 'notification' && 'event' in payload) {

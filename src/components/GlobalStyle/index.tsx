@@ -17,6 +17,7 @@ export const mhqPalette = {
   800: '#25833e',
   900: '#19612c',
   1000: '#0e3f1b',
+  1100: '#051a0b',
 };
 
 export const GlobalStyle = () => {
