@@ -4,7 +4,7 @@ import { CharityBox } from '@components/CharityBox';
 import { ChatBox } from '@components/ChatBox';
 import { FlexContainer } from '@components/shared/FlexContainer';
 import { MessageHandler } from '@components/MessageHandler';
-import { PersonBox } from '@components/PersonBox';
+import { InfoBox } from '@components/InfoBox';
 import { useDispatch, useSelector } from '@store';
 import { useGetUserChatColorsQuery } from '@store/apis/twitch/getUserChatColors';
 import { useEffect } from 'react';
@@ -43,7 +43,7 @@ export const InfoBar = () => {
   return (
     <FlexContainer css={cssBar}>
       <MessageHandler />
-      <PersonBox />
+      <InfoBox />
       <ChatBox />
       <CharityBox />
     </FlexContainer>

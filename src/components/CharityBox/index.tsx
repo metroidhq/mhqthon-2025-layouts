@@ -38,15 +38,17 @@ export const CharityBox = () => {
   `;
   const cssAmounts = css`
     align-items: flex-end;
-    font-family: 'Orbitron';
-    font-weight: 700;
   `;
   const cssCurrentAmount = css`
+    font-family: 'Orbitron';
     line-height: calc(var(--line-height) * 2);
     font-size: calc(var(--font-size) * 2);
+    font-weight: 400;
   `;
   const cssTargetAmount = css`
     opacity: 0.7;
+    font-weight: 500;
+    /* color: var(--colors-beyond-400); */
   `;
   const cssLogo = css`
     width: calc(var(--bar-height) - var(--padding));
@@ -71,7 +73,7 @@ export const CharityBox = () => {
       <FlexContainer column={true} cssContainer={cssAmounts}>
         <span css={cssCurrentAmount}>{currentAmount ? formatTwitchAmount(currentAmount) : '$0.00'}</span>
         <span css={cssTargetAmount}>
-          Next Goal:{' '}
+          Donation Goal:{' '}
           {targetAmount
             ? formatTwitchAmount(targetAmount, {
                 minimumFractionDigits: 0,

@@ -2,6 +2,7 @@ import { Global, css } from '@emotion/react';
 
 import backgroundImage from '@assets/images/background.png';
 import orbitronBoldFont from '@assets/fonts/Orbitron-Bold.ttf';
+import orbitronRegularFont from '@assets/fonts/Orbitron-Regular.ttf';
 import robotoLightFont from '@assets/fonts/Roboto-Light.ttf';
 import robotoRegularFont from '@assets/fonts/Roboto-Regular.ttf';
 import robotoMediumFont from '@assets/fonts/Roboto-Medium.ttf';
@@ -20,12 +21,35 @@ export const mhqPalette = {
   1100: '#051a0b',
 };
 
+export const beyondPalette = {
+  100: '#f4edf7',
+  200: '#e1c6f1',
+  300: '#d195f5',
+  400: '#c25dff',
+  500: '#b130ff',
+  600: '#a003ff',
+  700: '#8500d4',
+  800: '#6800a7',
+  900: '#4c007a',
+  1000: '#30004d',
+  1100: '#13001f',
+};
+
 export const GlobalStyle = () => {
   const bodyBackgroundColor = window.obsstudio ? 'transparent' : '#33342b';
   const rootBackgroundColor = window.obsstudio ? 'transparent' : '#33342b';
   const rootBackgroundImage = window.obsstudio ? 'none' : `url("${backgroundImage}")`;
 
   const cssGlobal = css`
+    @font-face {
+      font-family: 'Orbitron';
+      font-style: normal;
+      font-weight: 400;
+      src: url(${orbitronRegularFont}) format('truetype');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC,
+        U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
     @font-face {
       font-family: 'Orbitron';
       font-style: normal;
@@ -85,6 +109,10 @@ export const GlobalStyle = () => {
 
       ${Object.entries(mhqPalette)
         .map(([weight, hexcode]) => `--colors-mhq-${weight}: ${hexcode};`)
+        .join('')}
+
+      ${Object.entries(beyondPalette)
+        .map(([weight, hexcode]) => `--colors-beyond-${weight}: ${hexcode};`)
         .join('')}
     }
 

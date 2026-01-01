@@ -1,15 +1,15 @@
+import { DateTime, TimeZone } from 'timezonecomplete';
 import { css } from '@emotion/react';
 import { useEffect, useRef, useState } from 'react';
 
-import type { PersonInfoProps } from './types';
+import type { ScheduleInfoProps } from './types';
 
 import { FlexContainer } from '@components/shared/FlexContainer';
 import { useGetChannelStreamScheduleQuery } from '@store/apis/twitch/getChannelStreamSchedule';
 import { useGetPronounsQuery } from '@store/apis/chatPronouns/getPronouns';
 import { useGetUserQuery } from '@store/apis/chatPronouns/getUser';
-import { DateTime, TimeZone } from 'timezonecomplete';
 
-export const PersonInfo = ({ person }: PersonInfoProps) => {
+export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
   const {
     data: channelStreamScheduleData,
     error: channelStreamScheduleError,
@@ -19,7 +19,7 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
   const { data: pronounsData, /* error: pronounsError, */ isLoading: isPronounsLoading } = useGetPronounsQuery();
   const { data: userData, /* error: userError, */ isLoading: isUserLoading } = useGetUserQuery({ login: person.login });
   const [segments, setSegments] = useState<{ title: string; time: string }[]>([]);
-  const personInfoIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
+  const scheduleInfoIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
   const isLoading = isChannelStreamScheduleLoading || isPronounsLoading || isUserLoading;
   const isRenderable = !!(
     (channelStreamScheduleData || channelStreamScheduleError) &&
@@ -35,6 +35,8 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
     min-width: 100%;
     padding-left: calc(var(--bar-height) + var(--padding));
     line-height: var(--line-height);
+    opacity: ${isActive ? '1' : '0'};
+    transition: opacity 0.5s;
   `;
   const cssContainerInfo = css`
     position: absolute;
@@ -46,17 +48,22 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
   const cssContainerSchedule = css`
     flex: 1;
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: calc(100% - ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75)));
-    max-height: calc(var(--bar-height) - var(--padding));
+    height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding) calc(var(--padding) / 2) 0;
     overflow-y: hidden;
     transition: opacity 0.5s;
   `;
-  const cssSpanScheduleLabel = css`
-    font-family: 'Orbitron';
-    font-weight: 700;
-    opacity: 0.7;
-  `;
+  // const cssSpanScheduleLabel = css`
+  //   display: none;
+  //   font-family: 'Orbitron';
+  //   /* font-weight: 700; */
+  //   color: var(--colors-beyond-400);
+  //   opacity: 0.7;
+  // `;
   const cssPTopInfo = css`
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,7 +79,6 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
     font-size: var(--line-height);
   `;
   const cssSpanTime = css`
-    font-weight: 500;
     opacity: 0.7;
   `;
 
@@ -109,13 +115,13 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
     }
   }, [channelStreamScheduleData, setSegments]);
 
-  // Set person info interval
+  // Set schedule info interval
   useEffect(() => {
-    clearInterval(personInfoIntervalIdRef.current);
-    personInfoIntervalIdRef.current = setInterval(() => refetchChannelStreamSchedule(), 60 * 1000);
+    clearInterval(scheduleInfoIntervalIdRef.current);
+    scheduleInfoIntervalIdRef.current = setInterval(() => refetchChannelStreamSchedule(), 60 * 1000);
 
-    return () => clearInterval(personInfoIntervalIdRef.current);
-  }, [personInfoIntervalIdRef, refetchChannelStreamSchedule]);
+    return () => clearInterval(scheduleInfoIntervalIdRef.current);
+  }, [scheduleInfoIntervalIdRef, refetchChannelStreamSchedule]);
 
   // Render nothing if data is loading or required data is incomplete
   if (isLoading || !isRenderable) return false;
@@ -125,14 +131,14 @@ export const PersonInfo = ({ person }: PersonInfoProps) => {
     <FlexContainer cssContainer={cssContainer}>
       <FlexContainer cssContainer={cssContainerInfo}>
         <FlexContainer column cssContainer={cssContainerSchedule}>
-          <span css={cssSpanScheduleLabel}>Schedule</span>
-
           {segments.map((segment, i) => (
             <p key={i} css={i === 0 ? cssPTopInfoBold : cssPTopInfo}>
               <span css={cssSpanTime}>{segment.time}:&nbsp;</span>
               <span>{segment.title}</span>
             </p>
           ))}
+
+          {/* <span css={cssSpanScheduleLabel}>Schedule</span> */}
         </FlexContainer>
       </FlexContainer>
     </FlexContainer>
