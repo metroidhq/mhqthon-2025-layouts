@@ -27,7 +27,7 @@ export const InfoBox = () => {
     filter: var(--shadow);
   `;
   const cssLogo = css`
-    width: calc(var(--bar-height) - var(--padding));s
+    width: calc(var(--bar-height) - var(--padding));
     height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding);
     border-radius: 50%;
@@ -44,7 +44,18 @@ export const InfoBox = () => {
   // Set info box interval
   useEffect(() => {
     clearInterval(infoBoxIntervalIdRef.current);
-    infoBoxIntervalIdRef.current = setInterval(() => setActiveStates((state) => state[state.length - 1] ? ), 60 * 1000);
+    infoBoxIntervalIdRef.current = setInterval(
+      () =>
+        setActiveStates((state) =>
+          state.map((isActive, activeIndex) => {
+            if (isActive) return !isActive;
+            if (activeIndex && state[activeIndex - 1]) return state[activeIndex - 1];
+            if (!activeIndex && state[state.length - 1]) return state[state.length - 1];
+            return isActive;
+          }),
+        ),
+      60 * 1000,
+    );
 
     return () => clearInterval(infoBoxIntervalIdRef.current);
   }, [infoBoxIntervalIdRef, setActiveStates]);
@@ -56,8 +67,8 @@ export const InfoBox = () => {
   return (
     <FlexContainer cssContainer={cssContainer}>
       <img src={usersData.data[0].profile_image_url} css={cssLogo} />
-      <BrandInfo />
-      {/* <ScheduleInfo person={usersData.data[0]} /> */}
+      <BrandInfo isActive={activeStates[0]} />
+      <ScheduleInfo isActive={activeStates[1]} person={usersData.data[0]} />
     </FlexContainer>
   );
 };

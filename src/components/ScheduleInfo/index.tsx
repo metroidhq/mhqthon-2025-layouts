@@ -50,42 +50,39 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
     position: absolute;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: calc(100% - ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75)));
     height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding) calc(var(--padding) / 2) 0;
     overflow-y: hidden;
     transition: opacity 0.5s;
+
+    > :first-of-type {
+      font-size: var(--line-height);
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+    }
+
+    > :not(:first-of-type) {
+      white-space: nowrap;
+    }
   `;
-  // const cssSpanScheduleLabel = css`
-  //   display: none;
-  //   font-family: 'Orbitron';
-  //   /* font-weight: 700; */
-  //   color: var(--colors-beyond-400);
-  //   opacity: 0.7;
-  // `;
   const cssPTopInfo = css`
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
     max-width: 100%;
-  `;
-  const cssPTopInfoBold = css`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-    font-weight: 500;
-    font-size: var(--line-height);
+    min-height: fit-content;
   `;
   const cssSpanTime = css`
+    font-weight: 500;
     opacity: 0.7;
   `;
 
   // Set segments data
   useEffect(() => {
     if (channelStreamScheduleData && channelStreamScheduleData.data.segments) {
-      const nextSegments = channelStreamScheduleData.data.segments.slice(0, 2);
+      const nextSegments = channelStreamScheduleData.data.segments.slice(0, 3);
 
       const filteredSegments = nextSegments.reduce((acc, segment) => {
         const { start_time: startTime } = segment;
@@ -94,7 +91,7 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
 
         const titlePieces = title.split(' Presents: ');
         title = titlePieces[1] ? titlePieces[1] : titlePieces[0];
-        title = title.split(' | MHQthon 2024')[0];
+        title = title.split(' | MHQthon 2025')[0];
 
         const time = new DateTime(new Date(startTime).toISOString(), 'y-MM-ddTHH:mm:ss.SSSZ')
           .toZone(TimeZone.zone(Intl.DateTimeFormat().resolvedOptions().timeZone))
@@ -132,13 +129,11 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
       <FlexContainer cssContainer={cssContainerInfo}>
         <FlexContainer column cssContainer={cssContainerSchedule}>
           {segments.map((segment, i) => (
-            <p key={i} css={i === 0 ? cssPTopInfoBold : cssPTopInfo}>
-              <span css={cssSpanTime}>{segment.time}:&nbsp;</span>
+            <p key={i} css={cssPTopInfo}>
+              <span css={cssSpanTime}>{segment.time}&nbsp;</span>
               <span>{segment.title}</span>
             </p>
           ))}
-
-          {/* <span css={cssSpanScheduleLabel}>Schedule</span> */}
         </FlexContainer>
       </FlexContainer>
     </FlexContainer>
