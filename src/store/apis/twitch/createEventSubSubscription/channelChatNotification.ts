@@ -173,21 +173,23 @@ export type TwitchEventSubChannelChatNotificationNotificationMessageEvent = {
   shared_chat_announcement: TwitchEventSubChannelChatNotificationAnnouncement | null;
 };
 export type TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionType = typeof type;
-export type TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionVersion = typeof version;
-export type TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionCondition = ReturnType<
-  typeof getCondition
->;
-export type TwitchEventSubChannelChatNotificationNotificationMessage = TwitchEventSubNotificationMessage<
-  TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionType,
-  TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionVersion,
-  TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionCondition,
-  TwitchEventSubChannelChatNotificationNotificationMessageEvent
->;
-export type TwitchEventSubChannelChatNotificationRevocationMessage = TwitchEventSubRevocationMessage<
-  TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionType,
-  TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionVersion,
-  TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionCondition
->;
+export type TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionVersion =
+  typeof version;
+export type TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionCondition =
+  ReturnType<typeof getCondition>;
+export type TwitchEventSubChannelChatNotificationNotificationMessage =
+  TwitchEventSubNotificationMessage<
+    TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionType,
+    TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionVersion,
+    TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionCondition,
+    TwitchEventSubChannelChatNotificationNotificationMessageEvent
+  >;
+export type TwitchEventSubChannelChatNotificationRevocationMessage =
+  TwitchEventSubRevocationMessage<
+    TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionType,
+    TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionVersion,
+    TwitchEventSubChannelChatNotificationNotificationMessageSubscriptionCondition
+  >;
 
 export const {
   useCreateEventSubSubscriptionChannelChatNotificationQuery,

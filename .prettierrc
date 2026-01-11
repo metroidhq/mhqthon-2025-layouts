@@ -5,7 +5,7 @@
   "endOfLine": "lf",
   "experimentalTernaries": false,
   "jsxSingleQuote": false,
-  "printWidth": 120,
+  "printWidth": 100,
   "quoteProps": "consistent",
   "semi": true,
   "singleAttributePerLine": false,

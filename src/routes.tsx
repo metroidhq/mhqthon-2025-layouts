@@ -4,6 +4,7 @@ import { Container } from '@components/Container';
 import { Countdown } from '@components/Countdown';
 import { InfoBar } from '@components/InfoBar';
 import { BigText } from '@components/BigText';
+import { IncentiveForm } from '@components/IncentiveForm';
 
 export const router = createHashRouter([
   {
@@ -40,5 +41,9 @@ export const router = createHashRouter([
   {
     path: 'thanks',
     element: <BigText text="Thanks for watching!" subtext="See you next year, and Beyond!" />,
+  },
+  {
+    path: 'incentives',
+    element: <IncentiveForm />,
   },
 ]);

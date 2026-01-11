@@ -23,7 +23,10 @@ export const {
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getUserChatColors: build.query<TwitchApiGetUserChatColorsResponse, TwitchApiGetUserChatColorsRequest>({
+      getUserChatColors: build.query<
+        TwitchApiGetUserChatColorsResponse,
+        TwitchApiGetUserChatColorsRequest
+      >({
         query: ({ userIds }) => ({
           method: 'GET',
           url: `/chat/color?${userIds.map((userId) => `user_id=${userId}`).join('&')}`,

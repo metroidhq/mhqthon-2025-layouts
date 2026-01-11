@@ -50,7 +50,10 @@ export default [
       'require-atomic-updates': 'off',
       'semi': ['warn', 'always'],
       'space-before-blocks': 'warn',
-      'space-before-function-paren': ['warn', { anonymous: 'never', named: 'never', asyncArrow: 'always' }],
+      'space-before-function-paren': [
+        'warn',
+        { anonymous: 'never', named: 'never', asyncArrow: 'always' },
+      ],
       'space-infix-ops': 'warn',
       'space-unary-ops': ['warn', { words: true, nonwords: false }],
     },

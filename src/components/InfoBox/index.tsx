@@ -7,16 +7,21 @@ import { ScheduleInfo } from '@components/ScheduleInfo';
 import { useDispatch, useSelector } from '@store';
 import { useLazyGetUserChatColorsQuery } from '@store/apis/twitch/getUserChatColors';
 import { useLazyGetUsersQuery } from '@store/apis/twitch/getUsers';
+import { IncentiveInfo } from '@components/IncentiveInfo';
 
 export const InfoBox = () => {
   const dispatch = useDispatch();
   const { broadcasterId } = useSelector(({ info }) => info);
   const [
     getUserChatColors,
-    { data: userChatColorsData, /* error: userChatColorsError, */ isLoading: isUserChatColorsLoading },
+    {
+      data: userChatColorsData,
+      /* error: userChatColorsError, */ isLoading: isUserChatColorsLoading,
+    },
   ] = useLazyGetUserChatColorsQuery();
-  const [getUsers, { data: usersData, /* error: usersError, */ isLoading: isUsersLoading }] = useLazyGetUsersQuery();
-  const [activeStates, setActiveStates] = useState<boolean[]>([true, false]);
+  const [getUsers, { data: usersData, /* error: usersError, */ isLoading: isUsersLoading }] =
+    useLazyGetUsersQuery();
+  const [activeStates, setActiveStates] = useState<boolean[]>([true, false, false]);
   const infoBoxIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
   const isLoading = isUserChatColorsLoading || isUsersLoading;
   const isRenderable = !!(userChatColorsData && usersData);
@@ -67,8 +72,9 @@ export const InfoBox = () => {
   return (
     <FlexContainer cssContainer={cssContainer}>
       <img src={usersData.data[0].profile_image_url} css={cssLogo} />
-      <BrandInfo isActive={activeStates[0]} />
-      <ScheduleInfo isActive={activeStates[1]} person={usersData.data[0]} />
+      <BrandInfo isActive={activeStates[1]} />
+      <ScheduleInfo isActive={activeStates[2]} person={usersData.data[0]} />
+      <IncentiveInfo isActive={activeStates[0]} />
     </FlexContainer>
   );
 };

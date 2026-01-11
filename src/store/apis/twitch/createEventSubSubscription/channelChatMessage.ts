@@ -86,7 +86,9 @@ export type TwitchEventSubChannelChatMessageNotificationMessageEvent = {
 };
 export type TwitchEventSubChannelChatMessageNotificationMessageSubscriptionType = typeof type;
 export type TwitchEventSubChannelChatMessageNotificationMessageSubscriptionVersion = typeof version;
-export type TwitchEventSubChannelChatMessageNotificationMessageSubscriptionCondition = ReturnType<typeof getCondition>;
+export type TwitchEventSubChannelChatMessageNotificationMessageSubscriptionCondition = ReturnType<
+  typeof getCondition
+>;
 export type TwitchEventSubChannelChatMessageNotificationMessage = TwitchEventSubNotificationMessage<
   TwitchEventSubChannelChatMessageNotificationMessageSubscriptionType,
   TwitchEventSubChannelChatMessageNotificationMessageSubscriptionVersion,

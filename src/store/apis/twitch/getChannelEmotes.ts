@@ -48,7 +48,10 @@ export const {
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getChannelEmotes: build.query<TwitchApiGetChannelEmotesResponse, TwitchApiGetChannelEmotesRequest>({
+      getChannelEmotes: build.query<
+        TwitchApiGetChannelEmotesResponse,
+        TwitchApiGetChannelEmotesRequest
+      >({
         query: ({ broadcasterId }) => ({
           method: 'GET',
           url: `/chat/emotes?broadcaster_id=${broadcasterId}`,

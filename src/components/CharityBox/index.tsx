@@ -18,9 +18,13 @@ export const CharityBox = () => {
   } = useGetCharityCampaignQuery({ broadcasterId });
   const [
     getUserChatColors,
-    { data: userChatColorsData, /* error: userChatColorsError, */ isLoading: isUserChatColorsLoading },
+    {
+      data: userChatColorsData,
+      /* error: userChatColorsError, */ isLoading: isUserChatColorsLoading,
+    },
   ] = useLazyGetUserChatColorsQuery();
-  const [getUsers, { data: usersData, /* error: usersError, */ isLoading: isUsersLoading }] = useLazyGetUsersQuery();
+  const [getUsers, { data: usersData, /* error: usersError, */ isLoading: isUsersLoading }] =
+    useLazyGetUsersQuery();
   const isLoading = isCharityCampaignLoading || isUserChatColorsLoading || isUsersLoading;
   const isRenderable = !!(charityCampaignData && userChatColorsData && usersData);
   const {
@@ -71,7 +75,9 @@ export const CharityBox = () => {
   return (
     <FlexContainer cssContainer={cssContainer}>
       <FlexContainer column={true} cssContainer={cssAmounts}>
-        <span css={cssCurrentAmount}>{currentAmount ? formatTwitchAmount(currentAmount) : '$0.00'}</span>
+        <span css={cssCurrentAmount}>
+          {currentAmount ? formatTwitchAmount(currentAmount) : '$0.00'}
+        </span>
         <span css={cssTargetAmount}>
           Donation Goal:{' '}
           {targetAmount
@@ -83,7 +89,10 @@ export const CharityBox = () => {
       </FlexContainer>
 
       <img
-        src={charityLogo || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
+        src={
+          charityLogo ||
+          'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+        }
         css={cssLogo}
       />
     </FlexContainer>

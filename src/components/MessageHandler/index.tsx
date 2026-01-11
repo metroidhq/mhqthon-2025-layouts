@@ -41,11 +41,16 @@ export const MessageHandler = () => {
   const dispatch = useDispatch();
   const { accessToken } = useSelector(({ twitchAuth }) => twitchAuth);
   const { broadcasterId } = useSelector(({ info }) => info);
-  const { messageIds: twitchMessageIds, sessionId } = useSelector(({ twitchEventSub }) => twitchEventSub);
+  const { messageIds: twitchMessageIds, sessionId } = useSelector(
+    ({ twitchEventSub }) => twitchEventSub,
+  );
   const { messageIds: twitchPSMessageIds } = useSelector(({ twitchPubSub }) => twitchPubSub);
-  const { lastJsonMessage: twitchMessage } = useWebSocket<TwitchEventSubMessage>('wss://eventsub.wss.twitch.tv/ws', {
-    share: true,
-  });
+  const { lastJsonMessage: twitchMessage } = useWebSocket<TwitchEventSubMessage>(
+    'wss://eventsub.wss.twitch.tv/ws',
+    {
+      share: true,
+    },
+  );
   const {
     lastJsonMessage: twitchPSMessage,
     readyState: twitchPSReadyState,
@@ -53,14 +58,16 @@ export const MessageHandler = () => {
   } = useWebSocket<TwitchPubSubMessage>('wss://pubsub-edge.twitch.tv', {
     share: true,
   });
-  const [createEventSubSubscriptionChannelChatClear /* , { error: eventSubSubscriptionChannelChatClearError } */] =
-    useLazyCreateEventSubSubscriptionChannelChatClearQuery();
+  const [
+    createEventSubSubscriptionChannelChatClear /* , { error: eventSubSubscriptionChannelChatClearError } */,
+  ] = useLazyCreateEventSubSubscriptionChannelChatClearQuery();
   const [
     createEventSubSubscriptionChannelChatClearUserMessages,
     // { error: eventSubSubscriptionChannelChatClearUserMessagesError },
   ] = useLazyCreateEventSubSubscriptionChannelChatClearUserMessagesQuery();
-  const [createEventSubSubscriptionChannelChatMessage /* , { error: eventSubSubscriptionChannelChatMessageError } */] =
-    useLazyCreateEventSubSubscriptionChannelChatMessageQuery();
+  const [
+    createEventSubSubscriptionChannelChatMessage /* , { error: eventSubSubscriptionChannelChatMessageError } */,
+  ] = useLazyCreateEventSubSubscriptionChannelChatMessageQuery();
   const [
     createEventSubSubscriptionChannelChatMessageDelete,
     // { error: eventSubSubscriptionChannelChatMessageDeleteError },
@@ -85,13 +92,18 @@ export const MessageHandler = () => {
     createEventSubSubscriptionChannelSharedChatUpdate,
     // { error: eventSubSubscriptionChannelSharedChatUpdateError },
   ] = useLazyCreateEventSubSubscriptionChannelSharedChatUpdateQuery();
-  const [getSharedChatSession /* , { error: sharedChatSessionError } */] = useLazyGetSharedChatSessionQuery();
+  const [getSharedChatSession /* , { error: sharedChatSessionError } */] =
+    useLazyGetSharedChatSessionQuery();
   const pingIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
   const unpinTimeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle reset of upin timeout
   const handleResetUnpinTimeout = useCallback(
-    ({ pinId, updatedAt, endsAt }: { pinId?: string; updatedAt?: number; endsAt?: number } = {}) => {
+    ({
+      pinId,
+      updatedAt,
+      endsAt,
+    }: { pinId?: string; updatedAt?: number; endsAt?: number } = {}) => {
       clearTimeout(unpinTimeoutIdRef.current);
 
       if (pinId && endsAt && updatedAt) {
@@ -145,11 +157,20 @@ export const MessageHandler = () => {
                 }),
               );
             }
-          } else if (subscriptionType === 'channel.chat.message' || subscriptionType === 'channel.chat.notification') {
-            if ('message' in event && !('bits' in event) && 'text' in event.message && event.message.text) {
+          } else if (
+            subscriptionType === 'channel.chat.message' ||
+            subscriptionType === 'channel.chat.notification'
+          ) {
+            if (
+              'message' in event &&
+              !('bits' in event) &&
+              'text' in event.message &&
+              event.message.text
+            ) {
               const { message_timestamp: messageTimestamp } = metadata;
 
-              if (typeof event.message === 'object') dispatch(addChat({ ...event, messageTimestamp }));
+              if (typeof event.message === 'object')
+                dispatch(addChat({ ...event, messageTimestamp }));
             }
 
             if ('notice_type' in event && event.charity_donation) {
@@ -158,14 +179,22 @@ export const MessageHandler = () => {
           } else if (subscriptionType === 'channel.chat.message_delete') {
             if ('message_id' in event) {
               dispatch(
-                setChatDeletedTimestamp({ messageId: event.message_id, deletedTimestamp: metadata.message_timestamp }),
+                setChatDeletedTimestamp({
+                  messageId: event.message_id,
+                  deletedTimestamp: metadata.message_timestamp,
+                }),
               );
               dispatch(addTwitchEventSubMessageId(messageId));
             }
           } else if (subscriptionType === 'channel.chat_settings.update') {
             dispatch(
               updateChatSettingsData('getChatSettings', { broadcasterId }, (state) => {
-                const { broadcaster_user_id, broadcaster_user_login, broadcaster_user_name, ...eventData } = event;
+                const {
+                  broadcaster_user_id,
+                  broadcaster_user_login,
+                  broadcaster_user_name,
+                  ...eventData
+                } = event;
                 if (state) Object.assign(state.data[0], eventData);
               }),
             );
@@ -231,7 +260,11 @@ export const MessageHandler = () => {
               dispatch(setChatPinId({ messageId: data.message.id, pinId: data.id }));
               dispatch(addTwitchPubSubMessageId(messageId));
             } else if (type === 'update-message') {
-              handleResetUnpinTimeout({ pinId: data.id, updatedAt: data.updated_at, endsAt: data.ends_at });
+              handleResetUnpinTimeout({
+                pinId: data.id,
+                updatedAt: data.updated_at,
+                endsAt: data.ends_at,
+              });
               dispatch(addTwitchPubSubMessageId(messageId));
             } else if (type === 'unpin-message') {
               handleResetUnpinTimeout();

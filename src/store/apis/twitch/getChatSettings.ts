@@ -30,7 +30,10 @@ export const {
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getChatSettings: build.query<TwitchApiGetChatSettingsResponse, TwitchApiGetChatSettingsRequest>({
+      getChatSettings: build.query<
+        TwitchApiGetChatSettingsResponse,
+        TwitchApiGetChatSettingsRequest
+      >({
         query: ({ broadcasterId }) => ({
           method: 'GET',
           url: `/chat/settings?broadcaster_id=${broadcasterId}&moderator_id=${broadcasterId}`,

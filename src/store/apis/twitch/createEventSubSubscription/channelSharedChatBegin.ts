@@ -31,16 +31,17 @@ export type TwitchEventSubChannelSharedChatBeginNotificationMessageEvent = {
   }[];
 };
 export type TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionType = typeof type;
-export type TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionVersion = typeof version;
-export type TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionCondition = ReturnType<
-  typeof getCondition
->;
-export type TwitchEventSubChannelSharedChatBeginNotificationMessage = TwitchEventSubNotificationMessage<
-  TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionType,
-  TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionVersion,
-  TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionCondition,
-  TwitchEventSubChannelSharedChatBeginNotificationMessageEvent
->;
+export type TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionVersion =
+  typeof version;
+export type TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionCondition =
+  ReturnType<typeof getCondition>;
+export type TwitchEventSubChannelSharedChatBeginNotificationMessage =
+  TwitchEventSubNotificationMessage<
+    TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionType,
+    TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionVersion,
+    TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionCondition,
+    TwitchEventSubChannelSharedChatBeginNotificationMessageEvent
+  >;
 export type TwitchEventSubChannelSharedChatBeginRevocationMessage = TwitchEventSubRevocationMessage<
   TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionType,
   TwitchEventSubChannelSharedChatBeginNotificationMessageSubscriptionVersion,

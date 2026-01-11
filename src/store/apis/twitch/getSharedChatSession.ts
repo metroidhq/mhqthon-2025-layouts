@@ -19,14 +19,20 @@ export interface TwitchApiGetSharedChatSessionResponse {
 export const {
   useGetSharedChatSessionQuery,
   useLazyGetSharedChatSessionQuery,
-  util: { invalidateTags: invalidateSharedChatSessionTags, updateQueryData: updateSharedChatSessionData },
+  util: {
+    invalidateTags: invalidateSharedChatSessionTags,
+    updateQueryData: updateSharedChatSessionData,
+  },
 } = twitchApi
   .enhanceEndpoints({
     addTagTypes: ['SHARED_CHAT_SESSION_DATA'],
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getSharedChatSession: build.query<TwitchApiGetSharedChatSessionResponse, TwitchApiGetSharedChatSessionRequest>({
+      getSharedChatSession: build.query<
+        TwitchApiGetSharedChatSessionResponse,
+        TwitchApiGetSharedChatSessionRequest
+      >({
         query: ({ broadcasterId }) => ({
           method: 'GET',
           url: `/shared_chat/session?broadcaster_id=${broadcasterId}`,

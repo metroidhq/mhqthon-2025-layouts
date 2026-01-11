@@ -23,14 +23,20 @@ export interface TwitchApiGetChannelChatBadgesResponse {
 export const {
   useGetChannelChatBadgesQuery,
   useLazyGetChannelChatBadgesQuery,
-  util: { invalidateTags: invalidateChannelChatBadgesTags, updateQueryData: updateChannelChatBadgesData },
+  util: {
+    invalidateTags: invalidateChannelChatBadgesTags,
+    updateQueryData: updateChannelChatBadgesData,
+  },
 } = twitchApi
   .enhanceEndpoints({
     addTagTypes: ['CHANNEL_CHAT_BADGE_DATA'],
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getChannelChatBadges: build.query<TwitchApiGetChannelChatBadgesResponse, TwitchApiGetChannelChatBadgesRequest>({
+      getChannelChatBadges: build.query<
+        TwitchApiGetChannelChatBadgesResponse,
+        TwitchApiGetChannelChatBadgesRequest
+      >({
         query: ({ broadcasterId }) => ({
           method: 'GET',
           url: `/chat/badges?broadcaster_id=${broadcasterId}`,

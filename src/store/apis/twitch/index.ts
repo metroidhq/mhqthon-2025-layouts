@@ -84,27 +84,43 @@ export type TwitchEventSubSubscriptionMessage<
     event: Event;
   }
 >;
-export type TwitchEventSubNotificationMessage<SubscriptionType, SubscriptionVersion, SubscriptionCondition, Event> =
-  TwitchEventSubSubscriptionMessage<
-    'notification',
-    SubscriptionType,
-    SubscriptionVersion,
-    'enabled',
-    SubscriptionCondition,
-    Event
-  >;
-export type TwitchEventSubRevocationMessage<SubscriptionType, SubscriptionVersion, SubscriptionCondition> =
-  TwitchEventSubSubscriptionMessage<
-    'revocation',
-    SubscriptionType,
-    SubscriptionVersion,
-    'authorization_revoked' | 'user_removed' | 'version_removed',
-    SubscriptionCondition,
-    undefined
-  >;
-export type TwitchEventSubWelcomeMessage = TwitchEventSubSystemSessionMessage<'session_welcome', 'connected'>;
-export type TwitchEventSubKeepaliveMessage = TwitchEventSubSystemMessage<'session_keepalive', object>;
-export type TwitchEventSubReconnectMessage = TwitchEventSubSystemSessionMessage<'session_reconnect', 'reconnecting'>;
+export type TwitchEventSubNotificationMessage<
+  SubscriptionType,
+  SubscriptionVersion,
+  SubscriptionCondition,
+  Event,
+> = TwitchEventSubSubscriptionMessage<
+  'notification',
+  SubscriptionType,
+  SubscriptionVersion,
+  'enabled',
+  SubscriptionCondition,
+  Event
+>;
+export type TwitchEventSubRevocationMessage<
+  SubscriptionType,
+  SubscriptionVersion,
+  SubscriptionCondition,
+> = TwitchEventSubSubscriptionMessage<
+  'revocation',
+  SubscriptionType,
+  SubscriptionVersion,
+  'authorization_revoked' | 'user_removed' | 'version_removed',
+  SubscriptionCondition,
+  undefined
+>;
+export type TwitchEventSubWelcomeMessage = TwitchEventSubSystemSessionMessage<
+  'session_welcome',
+  'connected'
+>;
+export type TwitchEventSubKeepaliveMessage = TwitchEventSubSystemMessage<
+  'session_keepalive',
+  object
+>;
+export type TwitchEventSubReconnectMessage = TwitchEventSubSystemSessionMessage<
+  'session_reconnect',
+  'reconnecting'
+>;
 
 export type TwitchPubSubBaseMessage<Type, Data> = {
   type: Type;

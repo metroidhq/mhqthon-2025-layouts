@@ -6,6 +6,14 @@ import type { TwitchEventSubChannelChatMessageNotificationMessageEvent } from '@
 import type { TwitchEventSubChannelChatNotificationNotificationMessageEvent } from '@store/apis/twitch/createEventSubSubscription/channelChatNotification';
 
 import { createSlice } from '@reduxjs/toolkit';
+import * as uuid from 'uuid';
+
+export interface Incentive {
+  id: string;
+  amount: string;
+  description: string;
+  duration: string;
+}
 
 export interface ApiError {
   status: number;
@@ -24,7 +32,32 @@ export interface InfoState {
     pinId?: string;
   })[];
   errors: (Error | FetchBaseQueryError)[];
+  incentives: Incentive[];
 }
+
+export const initialIncentivesState: Incentive[] = [
+  {
+    id: uuid.v4(),
+    amount: '50',
+    description: 'Disable Myles Backseating the Marathon',
+    duration: '30',
+  },
+];
+
+export const getStoredIncentives = () => {
+  let localIncentives: Incentive[] = initialIncentivesState;
+
+  try {
+    const localIncentivesItem = localStorage.getItem('incentives');
+
+    if (localIncentivesItem !== null) localIncentives = JSON.parse(localIncentivesItem);
+    else localStorage.setItem('incentives', JSON.stringify(localIncentives));
+  } catch (error) {
+    //
+  }
+
+  return localIncentives;
+};
 
 export const getStoredRecentChats = (ex: number = 60 * 60 * 1000) => {
   let localStoredChats: InfoState['chats'] = [];
@@ -52,6 +85,7 @@ export const initialInfoState: InfoState = {
   broadcasterColor: null,
   chats: getStoredRecentChats(),
   errors: [],
+  incentives: getStoredIncentives(),
 };
 
 export const infoSlice = createSlice({
@@ -145,6 +179,13 @@ export const infoSlice = createSlice({
 
       localStorage.setItem('recentChats', JSON.stringify(storedRecentChats));
     },
+    setIncentives: (state, { payload }: PayloadAction<Incentive[]>) => {
+      localStorage.setItem('incentives', JSON.stringify(payload));
+      state.incentives = payload; // Use payload directly instead of reading from localStorage
+    },
+    setInfo: (state, { payload }: PayloadAction<Partial<InfoState>>) => {
+      Object.assign(state, payload);
+    },
     setUserChatsDeletedTimestamp: (
       state,
       {
@@ -155,7 +196,8 @@ export const infoSlice = createSlice({
       }>,
     ) => {
       for (const [i, chat] of Object.entries(state.chats)) {
-        if (chat.chatter_user_id === payload.chatterUserId) state.chats[i].deletedTimestamp = payload.deletedTimestamp;
+        if (chat.chatter_user_id === payload.chatterUserId)
+          state.chats[i].deletedTimestamp = payload.deletedTimestamp;
       }
 
       const storedRecentChats = getStoredRecentChats();
@@ -166,9 +208,6 @@ export const infoSlice = createSlice({
       }
 
       localStorage.setItem('recentChats', JSON.stringify(storedRecentChats));
-    },
-    setInfo: (state, { payload }: PayloadAction<Partial<InfoState>>) => {
-      Object.assign(state, payload);
     },
   },
 });
@@ -182,7 +221,8 @@ export const {
     removeError,
     setChatDeletedTimestamp,
     setChatPinId,
-    setUserChatsDeletedTimestamp,
+    setIncentives,
     setInfo,
+    setUserChatsDeletedTimestamp,
   },
 } = infoSlice;

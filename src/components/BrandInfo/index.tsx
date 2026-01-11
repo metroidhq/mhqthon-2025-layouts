@@ -26,7 +26,10 @@ export const BrandInfo = ({ isActive }: { isActive: boolean }) => {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: calc(100% - ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75)));
+    width: calc(
+      100% -
+        ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75))
+    );
     height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding) calc(var(--padding) / 2) 0;
     overflow-y: hidden;

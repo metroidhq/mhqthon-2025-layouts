@@ -14,7 +14,10 @@ export const twitchPubSubSlice = createSlice({
   initialState: initialTwitchPubSubState,
   name: 'twitchPubSub',
   reducers: {
-    addTwitchPubSubMessageId: (state, { payload }: PayloadAction<TwitchPubSubState['messageIds'][number]>) => {
+    addTwitchPubSubMessageId: (
+      state,
+      { payload }: PayloadAction<TwitchPubSubState['messageIds'][number]>,
+    ) => {
       state.messageIds.push(payload);
     },
   },

@@ -6,8 +6,6 @@ import type { ScheduleInfoProps } from './types';
 
 import { FlexContainer } from '@components/shared/FlexContainer';
 import { useGetChannelStreamScheduleQuery } from '@store/apis/twitch/getChannelStreamSchedule';
-import { useGetPronounsQuery } from '@store/apis/chatPronouns/getPronouns';
-import { useGetUserQuery } from '@store/apis/chatPronouns/getUser';
 
 export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
   const {
@@ -16,16 +14,12 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
     isLoading: isChannelStreamScheduleLoading,
     refetch: refetchChannelStreamSchedule,
   } = useGetChannelStreamScheduleQuery({ broadcasterId: person.id });
-  const { data: pronounsData, /* error: pronounsError, */ isLoading: isPronounsLoading } = useGetPronounsQuery();
-  const { data: userData, /* error: userError, */ isLoading: isUserLoading } = useGetUserQuery({ login: person.login });
   const [segments, setSegments] = useState<{ title: string; time: string }[]>([]);
   const scheduleInfoIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
-  const isLoading = isChannelStreamScheduleLoading || isPronounsLoading || isUserLoading;
+  const isLoading = isChannelStreamScheduleLoading;
   const isRenderable = !!(
     (channelStreamScheduleData || channelStreamScheduleError) &&
-    pronounsData &&
-    segments.length &&
-    userData
+    segments.length
   );
 
   const cssContainer = css`
@@ -50,7 +44,10 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: calc(100% - ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75)));
+    width: calc(
+      100% -
+        ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75))
+    );
     height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding) calc(var(--padding) / 2) 0;
     overflow-y: hidden;
@@ -102,7 +99,8 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
 
         if (startTime) {
           result = [...acc, { title, time }];
-          if (new Date(startTime).getTime() - new Date().getTime() < 0) result[result.length - 1].time = 'Now';
+          if (new Date(startTime).getTime() - new Date().getTime() < 0)
+            result[result.length - 1].time = 'Now';
         }
 
         return result;
@@ -115,7 +113,10 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
   // Set schedule info interval
   useEffect(() => {
     clearInterval(scheduleInfoIntervalIdRef.current);
-    scheduleInfoIntervalIdRef.current = setInterval(() => refetchChannelStreamSchedule(), 60 * 1000);
+    scheduleInfoIntervalIdRef.current = setInterval(
+      () => refetchChannelStreamSchedule(),
+      60 * 1000,
+    );
 
     return () => clearInterval(scheduleInfoIntervalIdRef.current);
   }, [scheduleInfoIntervalIdRef, refetchChannelStreamSchedule]);

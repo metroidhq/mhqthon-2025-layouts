@@ -16,7 +16,8 @@ export const Container = () => {
 
   // Set broadcaster id if token data exists
   useEffect(() => {
-    if (tokenData) dispatch(setInfo({ broadcasterId: tokenData.user_id, broadcasterLogin: tokenData.login }));
+    if (tokenData)
+      dispatch(setInfo({ broadcasterId: tokenData.user_id, broadcasterLogin: tokenData.login }));
   }, [dispatch, tokenData]);
 
   // Set errors

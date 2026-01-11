@@ -19,7 +19,10 @@ export interface TwitchApiGetGlobalChatBadgesResponse {
 export const {
   useGetGlobalChatBadgesQuery,
   useLazyGetGlobalChatBadgesQuery,
-  util: { invalidateTags: invalidateGlobalChatBadgesTags, updateQueryData: updateGlobalChatBadgesData },
+  util: {
+    invalidateTags: invalidateGlobalChatBadgesTags,
+    updateQueryData: updateGlobalChatBadgesData,
+  },
 } = twitchApi
   .enhanceEndpoints({
     addTagTypes: ['GLOBAL_CHAT_BADGE_DATA'],
