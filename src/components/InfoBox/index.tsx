@@ -72,9 +72,9 @@ export const InfoBox = () => {
   return (
     <FlexContainer cssContainer={cssContainer}>
       <img src={usersData.data[0].profile_image_url} css={cssLogo} />
-      <BrandInfo isActive={activeStates[1]} />
+      <BrandInfo isActive={activeStates[0]} />
+      <IncentiveInfo isActive={activeStates[1]} />
       <ScheduleInfo isActive={activeStates[2]} person={usersData.data[0]} />
-      <IncentiveInfo isActive={activeStates[0]} />
     </FlexContainer>
   );
 };
