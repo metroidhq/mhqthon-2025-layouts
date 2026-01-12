@@ -4,6 +4,7 @@ import { FlexContainer } from '@components/shared/FlexContainer';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from '@store';
 import { Incentive, setIncentives } from '@store/slices/info';
+import { distributeItems } from '@lib/distributeItems';
 
 export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
   const dispatch = useDispatch();
@@ -65,6 +66,10 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
     font-weight: 500;
     opacity: 0.7;
   `;
+
+  // [...Array(17)].forEach((_, i) => {
+  //   console.log(i + 1, distributeItems(Array(i + 1)));
+  // });
 
   // Listen for localStorage changes from other windows
   useEffect(() => {

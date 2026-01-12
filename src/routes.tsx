@@ -35,8 +35,26 @@ export const router = createHashRouter([
     element: <BigText text="Be right back" subtext="while we set up for the next segment" />,
   },
   {
+    path: 'be-right-back-speedrun',
+    element: (
+      <BigText
+        text="Be right back"
+        subtext="enjoy Dyceron's run of Metroid Prime: Federation Force"
+      />
+    ),
+  },
+  {
     path: 'be-back-later',
     element: <BigText text="Be back later" subtext="with more Metroid content tomorrow morning" />,
+  },
+  {
+    path: 'be-back-later-speedrun',
+    element: (
+      <BigText
+        text="Be back later"
+        subtext="enjoy Dyceron's run of Metroid Prime: Federation Force"
+      />
+    ),
   },
   {
     path: 'thanks',
