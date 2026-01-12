@@ -6,6 +6,7 @@ import * as uuid from 'uuid';
 import { type FocusEvent } from 'react';
 import { useDispatch, useSelector } from '@store';
 import { type Incentive, setIncentives } from '@store/slices/info';
+import backgroundImage from '@assets/images/background.png';
 
 export const IncentiveForm = () => {
   const dispatch = useDispatch();
@@ -16,10 +17,12 @@ export const IncentiveForm = () => {
     #root {
       width: auto;
       height: 100%;
+      background-color: #33342b;
     }
     #root {
       justify-content: flex-start;
       padding: 2rem 3rem;
+      background-image: url(${backgroundImage});
     }
   `;
   const cssContainer = css`
@@ -28,11 +31,14 @@ export const IncentiveForm = () => {
     justify-content: center;
     filter: var(--shadow);
   `;
+  const cssRowHeader = css`
+    align-items: center;
+  `;
   const cssRow = css`
     margin-top: 1rem;
   `;
   const cssAddIncentiveButton = css`
-    align-self: flex-end;
+    margin-left: 0.5rem;
   `;
   const cssRemoveIncentiveButton = css`
     margin-left: 0.5rem;
@@ -103,10 +109,14 @@ export const IncentiveForm = () => {
     <FlexContainer css={cssContainer} column>
       <Global styles={cssGlobal} />
       <FlexContainer column>
-        <FlexContainer>
+        <FlexContainer css={cssRowHeader}>
           <span css={cssAmountSpan}>Amount (USD)</span>
           <span css={cssDescriptionSpan}>Description</span>
           <span css={cssDurationSpan}>Duration (min)</span>
+
+          <TwitchButton css={cssAddIncentiveButton} onClick={handleAddIncentiveClick}>
+            +
+          </TwitchButton>
         </FlexContainer>
 
         {incentives.map(({ id, amount, description, duration }) => (
@@ -139,10 +149,6 @@ export const IncentiveForm = () => {
           </FlexContainer>
         ))}
       </FlexContainer>
-
-      <TwitchButton css={cssAddIncentiveButton} onClick={handleAddIncentiveClick}>
-        +
-      </TwitchButton>
     </FlexContainer>
   );
 };

@@ -28,7 +28,7 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
     width: calc(100% - (var(--padding) * 2));
     height: calc(100% - (var(--padding) * 2));
   `;
-  const cssContainerSchedule = css`
+  const cssContainerIncentives = css`
     flex: 1;
     position: absolute;
     display: flex;
@@ -55,6 +55,7 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
     }
   `;
   const cssPTopInfo = css`
+    flex-shrink: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
@@ -107,19 +108,21 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
   return (
     <FlexContainer cssContainer={cssContainer}>
       <FlexContainer cssContainer={cssContainerInfo}>
-        <FlexContainer column cssContainer={cssContainerSchedule}>
+        <FlexContainer column cssContainer={cssContainerIncentives}>
           {incentivesDisplayed.map(({ id, description, duration, amount }) => (
             <p key={id} css={cssPTopInfo}>
-              <span css={cssSpanTime}>
-                {amount && !isNaN(Number(amount))
-                  ? new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                      maximumFractionDigits: 0,
-                    }).format(Number(amount))
-                  : '$??'}
-                &nbsp;
-              </span>
+              {amount ? (
+                <span css={cssSpanTime}>
+                  {!isNaN(Number(amount))
+                    ? new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                        maximumFractionDigits: 0,
+                      }).format(Number(amount))
+                    : amount}
+                  &nbsp;
+                </span>
+              ) : null}
 
               <span>{description || '???'}</span>
               {duration ? (

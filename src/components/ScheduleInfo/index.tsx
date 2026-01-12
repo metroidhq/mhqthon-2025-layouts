@@ -66,6 +66,7 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
     }
   `;
   const cssPTopInfo = css`
+    flex-shrink: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
