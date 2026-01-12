@@ -108,8 +108,7 @@ export const Message = ({
           emotes.find((emote) =>
             'id' in emote
               ? emote.id === fragment.emote?.id
-              : emote.prefix === fragment.cheermote?.prefix &&
-                emote.bits === fragment.cheermote?.bits,
+              : emote.prefix === fragment.cheermote?.prefix && emote.bits === fragment.cheermote?.bits,
           ) || {};
 
         if ('url' in emote && typeof emote.url === 'string') {

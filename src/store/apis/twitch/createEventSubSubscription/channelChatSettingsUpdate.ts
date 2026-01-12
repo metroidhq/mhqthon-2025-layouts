@@ -29,25 +29,22 @@ export type TwitchEventSubChannelChatSettingsUpdateNotificationMessageEvent = {
   subscriber_mode: boolean;
   unique_chat_mode: boolean;
 };
-export type TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionType =
-  typeof type;
-export type TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionVersion =
-  typeof version;
-export type TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionCondition =
-  ReturnType<typeof getCondition>;
-export type TwitchEventSubChannelChatSettingsUpdateNotificationMessage =
-  TwitchEventSubNotificationMessage<
-    TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionType,
-    TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionVersion,
-    TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionCondition,
-    TwitchEventSubChannelChatSettingsUpdateNotificationMessageEvent
-  >;
-export type TwitchEventSubChannelChatSettingsUpdateRevocationMessage =
-  TwitchEventSubRevocationMessage<
-    TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionType,
-    TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionVersion,
-    TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionCondition
-  >;
+export type TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionType = typeof type;
+export type TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionVersion = typeof version;
+export type TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionCondition = ReturnType<
+  typeof getCondition
+>;
+export type TwitchEventSubChannelChatSettingsUpdateNotificationMessage = TwitchEventSubNotificationMessage<
+  TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionType,
+  TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionVersion,
+  TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionCondition,
+  TwitchEventSubChannelChatSettingsUpdateNotificationMessageEvent
+>;
+export type TwitchEventSubChannelChatSettingsUpdateRevocationMessage = TwitchEventSubRevocationMessage<
+  TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionType,
+  TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionVersion,
+  TwitchEventSubChannelChatSettingsUpdateNotificationMessageSubscriptionCondition
+>;
 
 export const {
   useCreateEventSubSubscriptionChannelChatSettingsUpdateQuery,

@@ -33,8 +33,7 @@ export const InfoBar = () => {
 
   // Set broadcaster color if user chat colors data exists
   useEffect(() => {
-    if (userChatColorsData)
-      dispatch(setInfo({ broadcasterColor: userChatColorsData.data[0].color }));
+    if (userChatColorsData) dispatch(setInfo({ broadcasterColor: userChatColorsData.data[0].color }));
   }, [dispatch, userChatColorsData]);
 
   // Render nothing if data is loading or required data is incomplete

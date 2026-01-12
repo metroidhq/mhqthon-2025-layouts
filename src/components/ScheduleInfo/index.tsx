@@ -17,10 +17,7 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
   const [segments, setSegments] = useState<{ title: string; time: string }[]>([]);
   const scheduleInfoIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
   const isLoading = isChannelStreamScheduleLoading;
-  const isRenderable = !!(
-    (channelStreamScheduleData || channelStreamScheduleError) &&
-    segments.length
-  );
+  const isRenderable = !!((channelStreamScheduleData || channelStreamScheduleError) && segments.length);
 
   const cssContainer = css`
     position: absolute;
@@ -44,10 +41,7 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: calc(
-      100% -
-        ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75))
-    );
+    width: calc(100% - ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75)));
     height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding) calc(var(--padding) / 2) 0;
     overflow-y: hidden;
@@ -100,8 +94,7 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
 
         if (startTime) {
           result = [...acc, { title, time }];
-          if (new Date(startTime).getTime() - new Date().getTime() < 0)
-            result[result.length - 1].time = 'Now';
+          if (new Date(startTime).getTime() - new Date().getTime() < 0) result[result.length - 1].time = 'Now';
         }
 
         return result;
@@ -114,10 +107,7 @@ export const ScheduleInfo = ({ isActive, person }: ScheduleInfoProps) => {
   // Set schedule info interval
   useEffect(() => {
     clearInterval(scheduleInfoIntervalIdRef.current);
-    scheduleInfoIntervalIdRef.current = setInterval(
-      () => refetchChannelStreamSchedule(),
-      60 * 1000,
-    );
+    scheduleInfoIntervalIdRef.current = setInterval(() => refetchChannelStreamSchedule(), 60 * 1000);
 
     return () => clearInterval(scheduleInfoIntervalIdRef.current);
   }, [scheduleInfoIntervalIdRef, refetchChannelStreamSchedule]);

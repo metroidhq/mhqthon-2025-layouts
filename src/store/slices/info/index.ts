@@ -196,8 +196,7 @@ export const infoSlice = createSlice({
       }>,
     ) => {
       for (const [i, chat] of Object.entries(state.chats)) {
-        if (chat.chatter_user_id === payload.chatterUserId)
-          state.chats[i].deletedTimestamp = payload.deletedTimestamp;
+        if (chat.chatter_user_id === payload.chatterUserId) state.chats[i].deletedTimestamp = payload.deletedTimestamp;
       }
 
       const storedRecentChats = getStoredRecentChats();

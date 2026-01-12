@@ -88,17 +88,13 @@ export const IncentiveForm = () => {
     dispatch(
       setIncentives(
         incentives.map((incentive) =>
-          incentive.id === id
-            ? { ...incentive, [event.target.name]: event.target.value }
-            : incentive,
+          incentive.id === id ? { ...incentive, [event.target.name]: event.target.value } : incentive,
         ),
       ),
     );
   };
   const handleAddIncentiveClick = () => {
-    dispatch(
-      setIncentives([...incentives, { id: uuid.v4(), amount: '', description: '', duration: '' }]),
-    );
+    dispatch(setIncentives([...incentives, { id: uuid.v4(), amount: '', description: '', duration: '' }]));
   };
   const handleRemoveIncentiveClick = (id: Incentive['id']) => () => {
     dispatch(setIncentives(incentives.filter((incentive) => incentive.id !== id)));

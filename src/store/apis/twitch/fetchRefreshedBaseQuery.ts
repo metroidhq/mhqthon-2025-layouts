@@ -18,11 +18,7 @@ export const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
   baseUrl: 'https://api.twitch.tv/helix',
   prepareHeaders(headers, api) {
-    if (
-      api.endpoint !== 'getDeviceCode' &&
-      api.endpoint !== 'createToken' &&
-      api.endpoint !== 'refreshToken'
-    ) {
+    if (api.endpoint !== 'getDeviceCode' && api.endpoint !== 'createToken' && api.endpoint !== 'refreshToken') {
       const {
         twitchAuth: { accessToken },
       } = api.getState() as RootState;
@@ -34,11 +30,11 @@ export const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
-export const fetchRefreshedBaseQuery: BaseQueryFn<
-  string | FetchArgs,
-  unknown,
-  FetchBaseQueryError
-> = async (args, api, extraOptions) => {
+export const fetchRefreshedBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions,
+) => {
   await mutex.waitForUnlock();
 
   const {

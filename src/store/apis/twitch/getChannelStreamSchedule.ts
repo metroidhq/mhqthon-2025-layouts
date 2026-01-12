@@ -34,10 +34,7 @@ export interface TwitchApiGetChannelStreamScheduleResponse {
 export const {
   useGetChannelStreamScheduleQuery,
   useLazyGetChannelStreamScheduleQuery,
-  util: {
-    invalidateTags: invalidateChannelStreamScheduleTags,
-    updateQueryData: updateChannelStreamScheduleData,
-  },
+  util: { invalidateTags: invalidateChannelStreamScheduleTags, updateQueryData: updateChannelStreamScheduleData },
 } = twitchApi
   .enhanceEndpoints({
     addTagTypes: ['CHANNEL_STREAM_SCHEDULE_DATA'],

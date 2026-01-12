@@ -24,9 +24,7 @@ export type TwitchEventSubChannelChatClearNotificationMessageEvent = {
 };
 export type TwitchEventSubChannelChatClearNotificationMessageSubscriptionType = typeof type;
 export type TwitchEventSubChannelChatClearNotificationMessageSubscriptionVersion = typeof version;
-export type TwitchEventSubChannelChatClearNotificationMessageSubscriptionCondition = ReturnType<
-  typeof getCondition
->;
+export type TwitchEventSubChannelChatClearNotificationMessageSubscriptionCondition = ReturnType<typeof getCondition>;
 export type TwitchEventSubChannelChatClearNotificationMessage = TwitchEventSubNotificationMessage<
   TwitchEventSubChannelChatClearNotificationMessageSubscriptionType,
   TwitchEventSubChannelChatClearNotificationMessageSubscriptionVersion,

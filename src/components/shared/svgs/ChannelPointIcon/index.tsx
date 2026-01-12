@@ -10,9 +10,7 @@ export const ChannelPointIcon = ({ colored, cssIcon: cssIconProvided, filled }: 
     ${cssIconProvided?.styles}
   `;
   let shineMask = {};
-  let shineNode = (
-    <path fill={colored ? color : 'white'} d="M10 6a4 4 0 0 1 4 4h-2a2 2 0 0 0-2-2V6z" />
-  );
+  let shineNode = <path fill={colored ? color : 'white'} d="M10 6a4 4 0 0 1 4 4h-2a2 2 0 0 0-2-2V6z" />;
 
   if (filled) {
     shineMask = { mask: 'url(#shine)' };

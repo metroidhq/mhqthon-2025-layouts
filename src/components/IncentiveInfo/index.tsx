@@ -4,7 +4,7 @@ import { FlexContainer } from '@components/shared/FlexContainer';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from '@store';
 import { Incentive, setIncentives } from '@store/slices/info';
-import { distributeItems } from '@lib/distributeItems';
+// import { distributeItems } from '@lib/distributeItems';
 
 export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
   const dispatch = useDispatch();
@@ -34,10 +34,7 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: calc(
-      100% -
-        ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75))
-    );
+    width: calc(100% - ((var(--padding) * 1) + var(--bar-height) - (var(--padding) * 2) + (var(--padding) * 1.75)));
     height: calc(var(--bar-height) - var(--padding));
     margin: calc(var(--padding) / 2) var(--padding) calc(var(--padding) / 2) 0;
     overflow-y: hidden;
@@ -99,9 +96,7 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
     incentiveInfoIntervalIdRef.current = setInterval(
       () =>
         setIncentivesDisplayed(
-          incentivesDisplayed.length
-            ? [...incentivesDisplayed.slice(1), incentivesDisplayed[0]]
-            : [],
+          incentivesDisplayed.length ? [...incentivesDisplayed.slice(1), incentivesDisplayed[0]] : [],
         ),
       (60 * 1000) / incentivesDisplayed.length,
     );
@@ -130,9 +125,7 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
               ) : null}
 
               <span>{description || '???'}</span>
-              {duration ? (
-                <span>&nbsp;({!isNaN(Number(duration)) ? `${duration} min` : duration})</span>
-              ) : null}
+              {duration ? <span>&nbsp;({!isNaN(Number(duration)) ? `${duration} min` : duration})</span> : null}
             </p>
           ))}
         </FlexContainer>

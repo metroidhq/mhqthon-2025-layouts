@@ -16,10 +16,7 @@ export const twitchEventSubSlice = createSlice({
   initialState: initialTwitchEventSubState,
   name: 'twitchEventSub',
   reducers: {
-    addTwitchEventSubMessageId: (
-      state,
-      { payload }: PayloadAction<TwitchEventSubState['messageIds'][number]>,
-    ) => {
+    addTwitchEventSubMessageId: (state, { payload }: PayloadAction<TwitchEventSubState['messageIds'][number]>) => {
       state.messageIds.push(payload);
     },
     setTwitchEventSub: (state, { payload }: PayloadAction<Partial<TwitchEventSubState>>) => {

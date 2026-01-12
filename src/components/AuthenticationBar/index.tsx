@@ -71,23 +71,13 @@ export const AuthenticationBar = ({ cssBar: cssBarProvided }: AuthenticationBarP
     <FlexContainer cssContainer={cssBar}>
       {window.obsstudio ? (
         <FlexContainer>
-          <TwitchInput
-            id="verification-url-input"
-            attach="right"
-            readOnly
-            value={deviceCodeData.verification_uri}
-          />
+          <TwitchInput id="verification-url-input" attach="right" readOnly value={deviceCodeData.verification_uri} />
           <TwitchButton onClick={handleCopyClick} attach="left" variant="secondary">
             <MdContentCopy />
           </TwitchButton>
         </FlexContainer>
       ) : (
-        <TwitchButton
-          as="a"
-          href={deviceCodeData.verification_uri}
-          target="_blank"
-          variant="secondary"
-        >
+        <TwitchButton as="a" href={deviceCodeData.verification_uri} target="_blank" variant="secondary">
           Grant&nbsp;
           <MdOpenInNew />
         </TwitchButton>

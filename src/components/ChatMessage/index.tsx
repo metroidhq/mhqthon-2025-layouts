@@ -86,24 +86,16 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
     // error: globalChatBadgesError,
     isLoading: isGlobalChatBadgesLoading,
   } = useGetGlobalChatBadgesQuery();
-  const { data: pronounsData, /* error: pronounsError, */ isLoading: isPronounsLoading } =
-    useGetPronounsQuery();
+  const { data: pronounsData, /* error: pronounsError, */ isLoading: isPronounsLoading } = useGetPronounsQuery();
   const {
     data: userData,
     // error: userError,
     isLoading: isUserLoading,
   } = useGetUserQuery({ login: event.chatter_user_login });
-  const isLoading =
-    isChannelChatBadgesLoading || isGlobalChatBadgesLoading || isPronounsLoading || isUserLoading;
-  const isRenderable = !!(
-    channelChatBadgesData &&
-    globalChatBadgesData &&
-    pronounsData &&
-    userData
-  );
+  const isLoading = isChannelChatBadgesLoading || isGlobalChatBadgesLoading || isPronounsLoading || isUserLoading;
+  const isRenderable = !!(channelChatBadgesData && globalChatBadgesData && pronounsData && userData);
   const isAction = event.message.text.startsWith('\u0001ACTION');
-  const isCosmicAbyss =
-    'message_type' in event && event.channel_points_animation_id === 'cosmic-abyss';
+  const isCosmicAbyss = 'message_type' in event && event.channel_points_animation_id === 'cosmic-abyss';
   const isDeleted = !!event.deletedTimestamp;
   const isSpecialMessage =
     'notice_type' in event ||
@@ -111,25 +103,18 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
     event.channel_points_custom_reward_id ||
     event.message_type !== 'text' ||
     event.pinId;
-  const isGigantifiedEmote =
-    'message_type' in event && event.message_type === 'power_ups_gigantified_emote';
-  const isHighlightMessage =
-    'message_type' in event && event.message_type === 'channel_points_highlighted';
-  const isRainbowEclipse =
-    'message_type' in event && event.channel_points_animation_id === 'rainbow-eclipse';
+  const isGigantifiedEmote = 'message_type' in event && event.message_type === 'power_ups_gigantified_emote';
+  const isHighlightMessage = 'message_type' in event && event.message_type === 'channel_points_highlighted';
+  const isRainbowEclipse = 'message_type' in event && event.channel_points_animation_id === 'rainbow-eclipse';
   const isSimmer = 'message_type' in event && event.channel_points_animation_id === 'simmer';
   const isMessageEffect = isCosmicAbyss || isRainbowEclipse || isSimmer;
   const specialType = 'notice_type' in event ? event.notice_type : event.message_type;
   let IconComponent: (typeof noticeTypes)[keyof typeof noticeTypes] | null = null;
 
   const { badges: messageBadges, message } = event;
-  const badgesData = [
-    ...((globalChatBadgesData || {}).data || []),
-    ...((channelChatBadgesData || {}).data || []),
-  ];
-  const pronouns = (
-    (pronounsData || []).find(({ name }) => name === ((userData || [])[0] || {}).pronoun_id) || {}
-  ).display;
+  const badgesData = [...((globalChatBadgesData || {}).data || []), ...((channelChatBadgesData || {}).data || [])];
+  const pronouns = ((pronounsData || []).find(({ name }) => name === ((userData || [])[0] || {}).pronoun_id) || {})
+    .display;
   const badges = badgesData.reduce(
     (acc: TwitchChatBoxBadge[], { set_id: setId, versions }) => [
       ...acc,
@@ -148,9 +133,7 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
 
   const animationDivMessageEffectBefore = isSimmer ? 'none' : 'rotate 4s linear infinite';
   const backgroundDivMarker =
-    'notice_type' in event &&
-    event.notice_type === 'announcement' &&
-    event.announcement.color !== 'PRIMARY'
+    'notice_type' in event && event.notice_type === 'announcement' && event.announcement.color !== 'PRIMARY'
       ? announcementColors[event.announcement.color]
       : broadcasterColor;
   const backgroundImageDivMessageEffectBefore = isSimmer
@@ -273,9 +256,7 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
         <p css={cssPMessage}>
           {messageBadges.map((messageBadge, i) => {
             const { image_url_4x: imageUrl4x } =
-              badges.find(
-                ({ id, set_id: setId }) => id === messageBadge.id && setId === messageBadge.set_id,
-              ) || {};
+              badges.find(({ id, set_id: setId }) => id === messageBadge.id && setId === messageBadge.set_id) || {};
 
             if (imageUrl4x) return <img key={i} src={imageUrl4x} css={cssImgBadge} />;
             return null;

@@ -14,13 +14,9 @@ export const InfoBox = () => {
   const { broadcasterId } = useSelector(({ info }) => info);
   const [
     getUserChatColors,
-    {
-      data: userChatColorsData,
-      /* error: userChatColorsError, */ isLoading: isUserChatColorsLoading,
-    },
+    { data: userChatColorsData, /* error: userChatColorsError, */ isLoading: isUserChatColorsLoading },
   ] = useLazyGetUserChatColorsQuery();
-  const [getUsers, { data: usersData, /* error: usersError, */ isLoading: isUsersLoading }] =
-    useLazyGetUsersQuery();
+  const [getUsers, { data: usersData, /* error: usersError, */ isLoading: isUsersLoading }] = useLazyGetUsersQuery();
   const [activeStates, setActiveStates] = useState<boolean[]>([true, false, false]);
   const infoBoxIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
   const isLoading = isUserChatColorsLoading || isUsersLoading;

@@ -27,23 +27,21 @@ export type TwitchEventSubChannelChatMessageDeleteNotificationMessageEvent = {
   message_id: string;
 };
 export type TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionType = typeof type;
-export type TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionVersion =
-  typeof version;
-export type TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionCondition =
-  ReturnType<typeof getCondition>;
-export type TwitchEventSubChannelChatMessageDeleteNotificationMessage =
-  TwitchEventSubNotificationMessage<
-    TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionType,
-    TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionVersion,
-    TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionCondition,
-    TwitchEventSubChannelChatMessageDeleteNotificationMessageEvent
-  >;
-export type TwitchEventSubChannelChatMessageDeleteRevocationMessage =
-  TwitchEventSubRevocationMessage<
-    TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionType,
-    TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionVersion,
-    TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionCondition
-  >;
+export type TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionVersion = typeof version;
+export type TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionCondition = ReturnType<
+  typeof getCondition
+>;
+export type TwitchEventSubChannelChatMessageDeleteNotificationMessage = TwitchEventSubNotificationMessage<
+  TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionType,
+  TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionVersion,
+  TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionCondition,
+  TwitchEventSubChannelChatMessageDeleteNotificationMessageEvent
+>;
+export type TwitchEventSubChannelChatMessageDeleteRevocationMessage = TwitchEventSubRevocationMessage<
+  TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionType,
+  TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionVersion,
+  TwitchEventSubChannelChatMessageDeleteNotificationMessageSubscriptionCondition
+>;
 
 export const {
   useCreateEventSubSubscriptionChannelChatMessageDeleteQuery,

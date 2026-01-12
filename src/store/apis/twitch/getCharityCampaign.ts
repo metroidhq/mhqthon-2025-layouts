@@ -28,20 +28,14 @@ export interface TwitchApiGetCharityCampaignResponse {
 export const {
   useGetCharityCampaignQuery,
   useLazyGetCharityCampaignQuery,
-  util: {
-    invalidateTags: invalidateCharityCampaignTags,
-    updateQueryData: updateCharityCampaignData,
-  },
+  util: { invalidateTags: invalidateCharityCampaignTags, updateQueryData: updateCharityCampaignData },
 } = twitchApi
   .enhanceEndpoints({
     addTagTypes: ['CHARITY_CAMPAIGN_DATA'],
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getCharityCampaign: build.query<
-        TwitchApiGetCharityCampaignResponse,
-        TwitchApiGetCharityCampaignRequest
-      >({
+      getCharityCampaign: build.query<TwitchApiGetCharityCampaignResponse, TwitchApiGetCharityCampaignRequest>({
         query: ({ broadcasterId }) => ({
           method: 'GET',
           url: `/charity/campaigns?broadcaster_id=${broadcasterId}`,

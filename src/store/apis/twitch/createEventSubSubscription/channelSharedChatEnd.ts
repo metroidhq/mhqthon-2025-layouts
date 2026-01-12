@@ -26,18 +26,16 @@ export type TwitchEventSubChannelSharedChatEndNotificationMessageEvent = {
   host_broadcaster_user_name: string;
 };
 export type TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionType = typeof type;
-export type TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionVersion =
-  typeof version;
+export type TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionVersion = typeof version;
 export type TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionCondition = ReturnType<
   typeof getCondition
 >;
-export type TwitchEventSubChannelSharedChatEndNotificationMessage =
-  TwitchEventSubNotificationMessage<
-    TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionType,
-    TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionVersion,
-    TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionCondition,
-    TwitchEventSubChannelSharedChatEndNotificationMessageEvent
-  >;
+export type TwitchEventSubChannelSharedChatEndNotificationMessage = TwitchEventSubNotificationMessage<
+  TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionType,
+  TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionVersion,
+  TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionCondition,
+  TwitchEventSubChannelSharedChatEndNotificationMessageEvent
+>;
 export type TwitchEventSubChannelSharedChatEndRevocationMessage = TwitchEventSubRevocationMessage<
   TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionType,
   TwitchEventSubChannelSharedChatEndNotificationMessageSubscriptionVersion,
