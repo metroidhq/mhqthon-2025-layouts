@@ -15,27 +15,9 @@ export const distributeItems = <T>(items: T[]): T[][] => {
   const extra = total % numRows;
   const rowSizes = new Array(numRows).fill(baseSize);
 
-  // 3. Symmetric Remainder Distribution
-  // Your tests (10 -> 3-4-3; 11 -> 4-3-4; 7 -> 2-3-2) show a "Center-Out"
-  // or "Edges-In" logic depending on if extra is 1 or 2.
-  const indices: number[] = [];
-  if (numRows % 2 !== 0) {
-    // For Odd Rows (e.g. 3): Priority is Middle, then Outer Edges
-    const mid = Math.floor(numRows / 2);
-    indices.push(mid);
-    for (let i = 0; i < mid; i++) {
-      indices.push(i, numRows - 1 - i);
-    }
-  } else {
-    // For Even Rows (e.g. 2, 4): Priority is Outer Edges first
-    for (let i = 0; i < numRows / 2; i++) {
-      indices.push(i, numRows - 1 - i);
-    }
-  }
-
-  // Assign extras based on the specific test patterns
+  // 3. Distribute extras top-down (first rows get the extra items)
   for (let i = 0; i < extra; i++) {
-    rowSizes[indices[i]]++;
+    rowSizes[i]++;
   }
 
   // 4. Map back to items
