@@ -1,28 +1,34 @@
 import { distributeItems } from './distributeItems';
 
-export type AspectRatio = [number, number];
+export type AspectRatio = `${number}:${number}`;
 
 export const canvasWidth = 1920 as const;
 export const canvasHeight = 1080 as const;
 export const barHeight = 120 as const;
 export const canvasPadding = 30 as const;
 export const contentAspectRatios = [
-  [16, 9],
-  [5, 3],
-  [3, 2],
-  [4, 3],
-  [8, 7],
-  [10, 9],
-  [16, 15],
-  [4, 6],
+  '16:9',
+  '5:3',
+  '3:2',
+  '4:3',
+  '8:7',
+  '10:9',
+  '16:15',
+  '4:6',
 ] as const satisfies AspectRatio[];
 
-export const transformAspectRatio = ([widthRatio, heightRatio]: [number, number]) => widthRatio / heightRatio;
+export const contentSideAspectRatioDefault = '4:3';
 
 export type ContentAspectRatio = (typeof contentAspectRatios)[number];
 
-export const numericContentAspectRatios = contentAspectRatios.map(transformAspectRatio);
-export const widestNumericContentAspectRatio = Math.max(...numericContentAspectRatios);
+export const transformAspectRatio = (aspectRatio: AspectRatio) => {
+  const ratios = aspectRatio.split(':');
+  return Number(ratios[0]) / Number(ratios[1]);
+};
+
+export const contentNumericAspectRatios = contentAspectRatios.map(transformAspectRatio);
+export const contentSideNumericAspectRatioDefault = transformAspectRatio(contentSideAspectRatioDefault);
+export const widestNumericContentAspectRatio = Math.max(...contentNumericAspectRatios);
 export const canvasPaddingTopBottom = canvasPadding * 3;
 export const canvasGap = canvasPadding;
 export const layoutGap = canvasGap / 2;
@@ -46,84 +52,183 @@ export interface LayoutConfig {
   infoAspectRatio?: AspectRatio | 'auto';
 }
 
-export interface TransformInfo {
+export interface LayoutMetricItem {
+  height: number;
+  width: number;
   x: number;
   y: number;
-  boundingBoxWidth: number;
-  boundingBoxHeight: number;
 }
 
-export interface LayoutTransformInfo {
-  camera?: TransformInfo;
-  contentMain: TransformInfo;
-  contentSide?: TransformInfo;
-  info?: TransformInfo;
-  name?: TransformInfo;
+export interface LayoutMetric {
+  camera?: LayoutMetricItem;
+  contentMain: LayoutMetricItem;
+  contentSide?: LayoutMetricItem;
+  info?: LayoutMetricItem;
+  name?: LayoutMetricItem;
 }
 
 export const generateLayout = (layoutConfigs: LayoutConfig[] /*, layoutAlignment: LayoutAlignment = 'center' */) => {
   const layoutConfigsTotal = layoutConfigs.length;
-  console.log('layoutConfigsTotal', layoutConfigsTotal);
 
   if (!layoutConfigsTotal) return [];
 
   // Constants
-  const result: LayoutTransformInfo[] = [];
   const canvasGridUnits = Math.ceil(Math.sqrt(layoutConfigsTotal));
-  console.log('canvasGridUnits', canvasGridUnits);
   const rows = distributeItems(layoutConfigs);
-  console.log('rows', JSON.stringify(rows));
   const rowsTotal = rows.length;
-  console.log('rowsTotal', rowsTotal);
   const canvasGridUnitWidth = (canvasContentWidth - (canvasGridUnits - 1) * canvasGap) / canvasGridUnits;
   const canvasGridUnitHeight = (canvasContentHeight - (canvasGridUnits - 1) * canvasGap) / canvasGridUnits;
-  console.log('canvasGridUnitHeight', canvasGridUnitHeight);
   const rowHeightMax =
     canvasGridUnitHeight * (canvasGridUnits / rowsTotal) + (canvasGridUnits / rowsTotal - 1) * canvasGap;
-  console.log('rowHeightMax', rowHeightMax);
   const widestLayoutContentWidth = canvasGridUnitHeight * widestNumericContentAspectRatio;
   const layoutSideWidth = canvasGridUnitWidth - widestLayoutContentWidth - layoutGap;
-  console.log('layoutSideWidth', layoutSideWidth);
 
-  // Find widest row
-  const rowWidths = rows.map((rowLayoutConfigs, rowsIndex) => {
-    const { rowContentMainNumericAspectRatio, rowSideWidth } = rowLayoutConfigs.reduce(
+  // Calculate row metrics
+  const rowMetrics = rows.map((rowLayoutConfigs) => {
+    const { contentMainNumericAspectRatio, sideWidthTotal } = rowLayoutConfigs.reduce(
       (acc, { contentMainAspectRatio, hasCamera = true, hasContentSide = false, infoAspectRatio }) => ({
-        rowContentMainNumericAspectRatio:
-          acc.rowContentMainNumericAspectRatio + transformAspectRatio(contentMainAspectRatio),
-        rowSideWidth:
-          acc.rowSideWidth + (hasCamera || hasContentSide || infoAspectRatio ? layoutGap + layoutSideWidth : 0),
+        contentMainNumericAspectRatio: acc.contentMainNumericAspectRatio + transformAspectRatio(contentMainAspectRatio),
+        sideWidthTotal:
+          acc.sideWidthTotal + (hasCamera || hasContentSide || infoAspectRatio ? layoutGap + layoutSideWidth : 0),
       }),
-      { rowContentMainNumericAspectRatio: 0, rowSideWidth: 0 },
+      { contentMainNumericAspectRatio: 0, sideWidthTotal: 0 },
     );
-    console.log(`rows[${rowsIndex}]`, 'rowContentMainNumericAspectRatio', rowContentMainNumericAspectRatio);
-    console.log(`rows[${rowsIndex}]`, 'rowSideWidth', rowSideWidth);
-    const rowContentWidth = canvasGridUnitHeight * rowContentMainNumericAspectRatio;
-    console.log(`rows[${rowsIndex}]`, 'rowContentWidth', rowContentWidth);
 
-    return rowContentWidth + rowSideWidth + (rowsTotal - 1) * canvasGap;
+    return {
+      contentMainNumericAspectRatio,
+      sideWidthTotal,
+      width: canvasGridUnitHeight * contentMainNumericAspectRatio + sideWidthTotal + (canvasGridUnits - 1) * canvasGap,
+    };
   });
-  console.log('rowWidths', rowWidths);
-  const widestRowWidth = Math.max(...rowWidths);
-  console.log('widestRowWidth', widestRowWidth);
-  // const widestRowIndex = rowWidths.indexOf(widestRowWidth);
-  // console.log('widestRowIndex', widestRowIndex);
 
-  // Get row height
-  const widestRowWidthFactor = canvasContentWidth / widestRowWidth;
-  console.log('widestRowWidthFactor', widestRowWidthFactor);
-  const widestRowHeight = widestRowWidthFactor * canvasGridUnitHeight;
-  console.log('widestRowHeight', widestRowHeight);
+  // Calculate row height
+  const rowWidths = rowMetrics.map(({ width }) => width);
+  const widestRowMetric = rowMetrics[rowWidths.indexOf(Math.max(...rowWidths))];
+  const widestRowContentMainWidth =
+    canvasContentWidth - (canvasGridUnits - 1) * canvasGap - widestRowMetric.sideWidthTotal;
+  const widestRowHeight = widestRowContentMainWidth / widestRowMetric.contentMainNumericAspectRatio;
   const rowHeight = Math.min(rowHeightMax, widestRowHeight);
-  console.log('rowHeight', rowHeight);
 
-  throw '';
-  return result;
+  // Calculate heights
+  const cameraHeightMax = (rowHeight - layoutGap) / 2;
+  const cameraHeightVariable = rowHeight - layoutGap - layoutSideWidth / contentSideNumericAspectRatioDefault;
+  const cameraHeight = Math.min(cameraHeightMax, cameraHeightVariable);
+  const nameHeight = cameraHeight / 3;
+  const infoHeightMax = rowHeight - layoutGap - cameraHeight;
+
+  // Calculate layout metrics
+  const layoutMetrics: LayoutMetric[] = [];
+  let rowY = canvasPaddingTopBottom + (canvasContentHeight - (rowHeight * rowsTotal - rowHeight * (rowsTotal - 1))) / 2;
+
+  rows.forEach((rowLayoutConfigs) => {
+    const rowLayoutConfigTotal = rowLayoutConfigs.length;
+    const rowLayoutConfigMetrics = rowLayoutConfigs.map(
+      ({ contentMainAspectRatio, hasCamera = true, hasContentSide = false, infoAspectRatio }) => ({
+        contentMainWidth: transformAspectRatio(contentMainAspectRatio) * rowHeight,
+        sideWidthTotal: hasCamera || hasContentSide || infoAspectRatio ? layoutGap + layoutSideWidth : 0,
+      }),
+    );
+    const rowWidth = rowLayoutConfigMetrics.reduce(
+      (acc, { contentMainWidth, sideWidthTotal }, rowLayoutConfigMetricIndex) => {
+        const gap = rowLayoutConfigMetricIndex ? canvasGap : 0;
+        return acc + gap + contentMainWidth + sideWidthTotal;
+      },
+      0,
+    );
+
+    // Calculate row Ys
+    const cameraY = rowY + rowHeight - cameraHeight;
+    const nameY = cameraY + cameraHeight - nameHeight;
+
+    // Calculate row Xs
+    let layoutX =
+      canvasPadding +
+      (canvasContentWidth - (rowWidth * rowLayoutConfigTotal - rowWidth * (rowLayoutConfigTotal - 1))) / 2;
+
+    rowLayoutConfigs.forEach(
+      ({ hasCamera = true, hasContentSide = false, hasName = true, infoAspectRatio }, layoutConfigIndex) => {
+        // Calculate layout heights
+        const infoHeight =
+          infoAspectRatio && infoAspectRatio !== 'auto'
+            ? layoutSideWidth / transformAspectRatio(infoAspectRatio)
+            : infoHeightMax;
+
+        // Calculate layout widths
+        const nameWidth = hasCamera ? layoutSideWidth : rowLayoutConfigMetrics[layoutConfigIndex].contentMainWidth;
+
+        // Calculate layout X
+        const contentMainX = layoutX;
+        const sideX = contentMainX + layoutGap;
+        const nameX = hasCamera ? sideX : contentMainX;
+
+        layoutMetrics.push({
+          ...(hasCamera
+            ? {
+                camera: {
+                  height: Math.round(cameraHeight),
+                  width: Math.round(layoutSideWidth),
+                  x: Math.round(sideX),
+                  y: Math.round(cameraY),
+                },
+              }
+            : {}),
+          contentMain: {
+            height: Math.round(rowHeight),
+            width: Math.round(rowLayoutConfigMetrics[layoutConfigIndex].contentMainWidth),
+            x: Math.round(contentMainX),
+            y: Math.round(rowY),
+          },
+          ...(hasContentSide
+            ? {
+                contentSide: {
+                  height: Math.round(0), // todo
+                  width: Math.round(layoutSideWidth),
+                  x: Math.round(sideX),
+                  y: Math.round(rowY),
+                },
+              }
+            : {}),
+          ...(infoAspectRatio
+            ? {
+                info: {
+                  height: Math.round(infoHeight),
+                  width: Math.round(layoutSideWidth),
+                  x: Math.round(sideX),
+                  y: Math.round(rowY), // todo
+                },
+              }
+            : {}),
+          ...(hasName
+            ? {
+                name: {
+                  height: Math.round(nameHeight),
+                  width: Math.round(nameWidth),
+                  x: Math.round(nameX),
+                  y: Math.round(nameY),
+                },
+              }
+            : {}),
+        });
+
+        // Refresh layout metrics
+        layoutX +=
+          rowLayoutConfigMetrics[layoutConfigIndex].contentMainWidth +
+          rowLayoutConfigMetrics[layoutConfigIndex].sideWidthTotal +
+          canvasGap;
+      },
+    );
+
+    // Refresh row metrics
+    rowY += rowHeight + canvasGap;
+  });
+
+  console.log('layoutMetrics', JSON.stringify(layoutMetrics, null, 2));
+  return layoutMetrics;
 };
 
 export const test = generateLayout([
-  { contentMainAspectRatio: [4, 6], hasCamera: false },
-  // { contentMainAspectRatio: [4, 3] },
-  // { contentMainAspectRatio: [16, 9] },
-  { contentMainAspectRatio: [16, 9] },
+  { contentMainAspectRatio: '4:6', hasCamera: false },
+  // { contentMainAspectRatio: '4:3' },
+  { contentMainAspectRatio: '16:9' },
+  // { contentMainAspectRatio: '16:9' },
 ]);
