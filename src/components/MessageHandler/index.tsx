@@ -246,7 +246,7 @@ export const MessageHandler = () => {
               dispatch(addTwitchPubSubMessageId(messageId));
             }
           }
-        } catch (error) {
+        } catch (_) {
           //
         }
       }

@@ -52,7 +52,7 @@ export const getStoredIncentives = () => {
 
     if (localIncentivesItem !== null) localIncentives = JSON.parse(localIncentivesItem);
     else localStorage.setItem('incentives', JSON.stringify(localIncentives));
-  } catch (error) {
+  } catch (_) {
     //
   }
 
@@ -67,7 +67,7 @@ export const getStoredRecentChats = (ex: number = 60 * 60 * 1000) => {
 
     if (localStoredChatsItem !== null) localStoredChats = JSON.parse(localStoredChatsItem);
     else localStorage.setItem('recentChats', JSON.stringify([]));
-  } catch (error) {
+  } catch (_) {
     //
   }
 

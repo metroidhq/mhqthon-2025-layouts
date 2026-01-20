@@ -1,12 +1,11 @@
 import { css, Global } from '@emotion/react';
 import { FlexContainer } from '@components/shared/FlexContainer';
-import { TwitchInput } from '@components/shared/TwitchInput';
 import { TwitchButton } from '@components/shared/TwitchButton';
 import * as uuid from 'uuid';
-import { type FocusEvent } from 'react';
 import { useDispatch, useSelector } from '@store';
-import { type Incentive, setIncentives } from '@store/slices/info';
+import { setIncentives } from '@store/slices/info';
 import backgroundImage from '@assets/images/background.png';
+import { IncentiveFieldset } from '@components/shared/IncentiveFieldset';
 
 export const IncentiveForm = () => {
   const dispatch = useDispatch();
@@ -37,9 +36,6 @@ export const IncentiveForm = () => {
   const cssRowHeader = css`
     align-items: center;
   `;
-  const cssRow = css`
-    margin-top: 0.5rem;
-  `;
   const cssIncentiveButton = css`
     margin-left: 0.5rem;
     border-radius: calc(0.4rem / 1.75);
@@ -52,7 +48,7 @@ export const IncentiveForm = () => {
   `;
   const cssAmountSpan = css`
     width: 7rem;
-    padding: calc(0.5rem / 1.75) calc(1rem / 1.75);
+    padding: calc(0.5rem / 1.75) calc(1rem / 1.75) calc(0.5rem / 1.75) calc((1rem / 1.75) + (2rem / 1.75));
     font-size: var(--font-size);
     font-weight: 500;
   `;
@@ -70,47 +66,9 @@ export const IncentiveForm = () => {
     font-size: var(--font-size);
     font-weight: 500;
   `;
-  const cssAmountInput = css`
-    width: 7rem;
-    font-size: var(--font-size);
-    line-height: var(--line-height);
-    border-radius: calc(0.4rem / 1.75);
-    height: calc(2rem / 1.75);
-    padding: calc(0.5rem / 1.75) calc(1rem / 1.75) !important;
-  `;
-  const cssDescriptionInput = css`
-    width: 12rem;
-    margin-left: 0.25rem;
-    font-size: var(--font-size);
-    line-height: var(--line-height);
-    border-radius: calc(0.4rem / 1.75);
-    height: calc(2rem / 1.75);
-    padding: calc(0.5rem / 1.75) calc(1rem / 1.75) !important;
-  `;
-  const cssDurationInput = css`
-    width: 7rem;
-    margin-left: 0.25rem;
-    font-size: var(--font-size);
-    line-height: var(--line-height);
-    border-radius: calc(0.4rem / 1.75);
-    height: calc(2rem / 1.75);
-    padding: calc(0.5rem / 1.75) calc(1rem / 1.75) !important;
-  `;
 
-  const handleAddIncentiveBlur = (id: Incentive['id']) => (event: FocusEvent<HTMLInputElement>) => {
-    dispatch(
-      setIncentives(
-        incentives.map((incentive) =>
-          incentive.id === id ? { ...incentive, [event.target.name]: event.target.value } : incentive,
-        ),
-      ),
-    );
-  };
   const handleAddIncentiveClick = () => {
     dispatch(setIncentives([...incentives, { id: uuid.v4(), amount: '', description: '', duration: '' }]));
-  };
-  const handleRemoveIncentiveClick = (id: Incentive['id']) => () => {
-    dispatch(setIncentives(incentives.filter((incentive) => incentive.id !== id)));
   };
 
   // Render component
@@ -128,34 +86,8 @@ export const IncentiveForm = () => {
           </TwitchButton>
         </FlexContainer>
 
-        {incentives.map(({ id, amount, description, duration }) => (
-          <FlexContainer key={id} css={cssRow}>
-            <TwitchInput
-              css={cssAmountInput}
-              defaultValue={amount}
-              id="incentive-amount"
-              name="amount"
-              onBlur={handleAddIncentiveBlur(id)}
-            />
-            <TwitchInput
-              css={cssDescriptionInput}
-              defaultValue={description}
-              id="incentive-description"
-              name="description"
-              onBlur={handleAddIncentiveBlur(id)}
-            />
-            <TwitchInput
-              css={cssDurationInput}
-              defaultValue={duration}
-              id="incentive-duration"
-              name="duration"
-              onBlur={handleAddIncentiveBlur(id)}
-            />
-
-            <TwitchButton css={cssIncentiveButton} onClick={handleRemoveIncentiveClick(id)}>
-              –
-            </TwitchButton>
-          </FlexContainer>
+        {incentives.map(({ id, ...incentive }) => (
+          <IncentiveFieldset key={id} incentive={{ id, ...incentive }} />
         ))}
       </FlexContainer>
     </FlexContainer>

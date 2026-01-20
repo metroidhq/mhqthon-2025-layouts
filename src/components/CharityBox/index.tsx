@@ -13,7 +13,7 @@ export const CharityBox = () => {
   const { broadcasterId } = useSelector(({ info }) => info);
   const {
     data: charityCampaignData,
-    // error: userChatColorsError,
+    // error: charityCampaignError,
     isLoading: isCharityCampaignLoading,
   } = useGetCharityCampaignQuery({ broadcasterId });
   const [

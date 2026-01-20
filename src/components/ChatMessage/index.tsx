@@ -143,7 +143,6 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
   const filterContainerContent = isSpecialMessage && !isMessageEffect ? 'var(--shadow)' : 'none';
   const filterDivMessageEffect = isRainbowEclipse ? 'blur(8px)' : 'none';
   const filterPMessageChild = isSpecialMessage ? 'none' : 'var(--shadow)';
-  const filterSpanPronouns = isSpecialMessage ? 'brightness(90%)' : 'brightness(110%)';
   const marginContainerContent = isMessageEffect ? 'calc(var(--padding) * (2 / 3))' : '0';
   const marginDivMessageEffect = isRainbowEclipse ? 'calc(var(--padding) * (2 / 3))' : '0';
   const paddingDivMessageEffect = !isRainbowEclipse ? 'calc(var(--padding) * (2 / 3))' : '0';
@@ -212,7 +211,7 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
     padding: calc(var(--padding) / 4) 0 calc(var(--padding) / 4)
       calc((var(--line-height) - (var(--padding) / 2)) + var(--padding));
 
-    * {
+    > * {
       filter: ${filterPMessageChild};
     }
   `;
@@ -227,7 +226,8 @@ export const ChatMessage = ({ event }: ChatMessageProps) => {
   `;
   const cssSpanPronouns = css`
     color: ${colorStrongLogin};
-    filter: ${filterSpanPronouns};
+    font-weight: 400;
+    opacity: 0.7;
   `;
 
   // Render nothing if data is loading or required data is incomplete

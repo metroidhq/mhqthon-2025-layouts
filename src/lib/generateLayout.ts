@@ -14,6 +14,7 @@ export const contentAspectRatios = [
   '8:7',
   '10:9',
   '16:15',
+  '1:1',
   '4:6',
 ] as const satisfies AspectRatio[];
 
@@ -118,7 +119,7 @@ export const generateLayout = (layoutConfigs: LayoutConfig[] /*, layoutAlignment
 
   // Calculate layout metrics
   const layoutMetrics: LayoutMetric[] = [];
-  let rowY = canvasPaddingTopBottom + (canvasContentHeight - (rowHeight * rowsTotal - rowHeight * (rowsTotal - 1))) / 2;
+  let rowY = canvasPaddingTopBottom + (canvasContentHeight - (rowHeight * rowsTotal + canvasGap * (rowsTotal - 1))) / 2;
 
   rows.forEach((rowLayoutConfigs) => {
     const rowLayoutConfigTotal = rowLayoutConfigs.length;
@@ -158,53 +159,53 @@ export const generateLayout = (layoutConfigs: LayoutConfig[] /*, layoutAlignment
 
         // Calculate layout X
         const contentMainX = layoutX;
-        const sideX = contentMainX + layoutGap;
+        const sideX = contentMainX + rowLayoutConfigMetrics[layoutConfigIndex].contentMainWidth + layoutGap;
         const nameX = hasCamera ? sideX : contentMainX;
 
         layoutMetrics.push({
           ...(hasCamera
             ? {
                 camera: {
-                  height: Math.round(cameraHeight),
-                  width: Math.round(layoutSideWidth),
                   x: Math.round(sideX),
                   y: Math.round(cameraY),
+                  width: Math.round(layoutSideWidth),
+                  height: Math.round(cameraHeight),
                 },
               }
             : {}),
           contentMain: {
-            height: Math.round(rowHeight),
-            width: Math.round(rowLayoutConfigMetrics[layoutConfigIndex].contentMainWidth),
             x: Math.round(contentMainX),
             y: Math.round(rowY),
+            width: Math.round(rowLayoutConfigMetrics[layoutConfigIndex].contentMainWidth),
+            height: Math.round(rowHeight),
           },
           ...(hasContentSide
             ? {
                 contentSide: {
-                  height: Math.round(0), // todo
-                  width: Math.round(layoutSideWidth),
                   x: Math.round(sideX),
                   y: Math.round(rowY),
+                  width: Math.round(layoutSideWidth),
+                  height: Math.round(0), // todo
                 },
               }
             : {}),
           ...(infoAspectRatio
             ? {
                 info: {
-                  height: Math.round(infoHeight),
-                  width: Math.round(layoutSideWidth),
                   x: Math.round(sideX),
                   y: Math.round(rowY), // todo
+                  width: Math.round(layoutSideWidth),
+                  height: Math.round(infoHeight),
                 },
               }
             : {}),
           ...(hasName
             ? {
                 name: {
-                  height: Math.round(nameHeight),
-                  width: Math.round(nameWidth),
                   x: Math.round(nameX),
                   y: Math.round(nameY),
+                  width: Math.round(nameWidth),
+                  height: Math.round(nameHeight),
                 },
               }
             : {}),
@@ -222,13 +223,5 @@ export const generateLayout = (layoutConfigs: LayoutConfig[] /*, layoutAlignment
     rowY += rowHeight + canvasGap;
   });
 
-  console.log('layoutMetrics', JSON.stringify(layoutMetrics, null, 2));
   return layoutMetrics;
 };
-
-export const test = generateLayout([
-  { contentMainAspectRatio: '4:6', hasCamera: false },
-  // { contentMainAspectRatio: '4:3' },
-  { contentMainAspectRatio: '16:9' },
-  // { contentMainAspectRatio: '16:9' },
-]);

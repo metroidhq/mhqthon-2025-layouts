@@ -5,6 +5,7 @@ import { Countdown } from '@components/Countdown';
 import { InfoBar } from '@components/InfoBar';
 import { BigText } from '@components/BigText';
 import { IncentiveForm } from '@components/IncentiveForm';
+import { EmptyBar } from '@components/EmptyBar';
 
 export const router = createHashRouter([
   {
@@ -53,5 +54,9 @@ export const router = createHashRouter([
   {
     path: 'incentives',
     element: <IncentiveForm />,
+  },
+  {
+    path: 'empty-bar',
+    element: <EmptyBar />,
   },
 ]);

@@ -27,7 +27,18 @@ export default [
       },
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
       'array-bracket-spacing': ['error', 'never'],
       'arrow-spacing': 'error',
       'brace-style': ['error', '1tbs'],

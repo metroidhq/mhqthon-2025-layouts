@@ -4,7 +4,7 @@ import { FlexContainer } from '@components/shared/FlexContainer';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from '@store';
 import { Incentive, setIncentives } from '@store/slices/info';
-import * as layoutVars from '@lib/generateLayout';
+import { generateLayout } from '@lib/generateLayout';
 
 export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
   const dispatch = useDispatch();
@@ -64,9 +64,18 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
     opacity: 0.7;
   `;
 
-  Object.entries(layoutVars).forEach(([key, value]) => {
-    if (typeof value !== 'function') console.log(key, value);
-  });
+  console.log(
+    JSON.stringify(
+      generateLayout([
+        { contentMainAspectRatio: '3:2' },
+        { contentMainAspectRatio: '3:2' },
+        { contentMainAspectRatio: '3:2' },
+        { contentMainAspectRatio: '3:2' },
+      ]),
+      null,
+      2,
+    ),
+  );
 
   // Listen for localStorage changes from other windows
   useEffect(() => {
@@ -75,7 +84,7 @@ export const IncentiveInfo = ({ isActive }: { isActive: boolean }) => {
         try {
           const newIncentives = JSON.parse(event.newValue);
           dispatch(setIncentives(newIncentives));
-        } catch (e) {
+        } catch (_) {
           // ignore parse errors
         }
       }
